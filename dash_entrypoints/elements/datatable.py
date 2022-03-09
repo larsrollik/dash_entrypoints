@@ -1,19 +1,20 @@
 import dash_html_components as html
 import dash_table
 import pandas as pd
+from dash import callback
 from dash import Input
 from dash import Output
 from dash import State
 
 
 def add_table(
-    app=None,
     table_name=None,
     df=None,
     dropdown_options=None,
     dropdown_columns=[],
     table_expandable=True,
     table_width=90,
+    **kwargs,
 ):
     """Dash DataTable wrapper to provide dropdown columns along with free field columns. Tables are row extendable.
 
@@ -81,7 +82,7 @@ def add_table(
         },
     )
 
-    @app.callback(
+    @callback(
         Output(table_name, "data"),
         Input(f"{table_name}-button", "n_clicks"),
         State(table_name, "data"),
