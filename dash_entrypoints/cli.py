@@ -1,26 +1,13 @@
 import argparse
 import logging
-import socket
 import sys
 
 from dash_entrypoints.entrypoint import run_entrypoint
-
-
-def get_local_ip_address():
-    """https://stackoverflow.com/questions/166506/finding-local-ip-addresses-using-pythons-stdlib"""
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    try:
-        # doesn't even have to be reachable
-        s.connect(("10.255.255.255", 1))
-        ip = s.getsockname()[0]
-    except Exception:
-        ip = "127.0.0.1"
-    finally:
-        s.close()
-    return ip
+from dash_entrypoints.misc import get_local_ip_address
 
 
 def make_parser():
+    """Make arg parser"""
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-n",

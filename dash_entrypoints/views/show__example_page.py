@@ -16,5 +16,6 @@ from dash import State
 
 
 def layout():
+    """Example page layout. Shows a random number as proof of reload on every browser page refresh."""
     layout = html.Div([html.H1(f"{__name__}, {np.random.randint(100)}")])
     return layout

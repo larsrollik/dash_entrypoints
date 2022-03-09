@@ -7,10 +7,13 @@ import dash
 import dash_bootstrap_components as dbc
 import dash_labs as dl
 
+from dash_entrypoints.misc import get_local_ip_address
+
 DEFAULT_APP_NAME = "InterfaceEntrypoint"
+DEFAULT_VIEWS_MODULE = "dash_entrypoints.views"
 
 
-def register_page_layouts(app_name=DEFAULT_APP_NAME, views_module=None, **kwargs):
+def register_page_layouts(app_name=DEFAULT_APP_NAME, views_module=None):
     """Register the page layouts in the subfolders of the views_module.
 
     :param app_name:
@@ -39,10 +42,14 @@ def register_page_layouts(app_name=DEFAULT_APP_NAME, views_module=None, **kwargs
             )
 
 
-def get_app(app_name=DEFAULT_APP_NAME, **kwargs):
+def get_app(
+    app_name=DEFAULT_APP_NAME,
+    views_module=None,
+):
     """
 
     :param app_name:
+    :param views_module:
     :param kwargs:
     :return:
     """
@@ -51,14 +58,18 @@ def get_app(app_name=DEFAULT_APP_NAME, **kwargs):
         plugins=[dl.plugins.pages],
         external_stylesheets=[dbc.themes.BOOTSTRAP],
     )
-    register_page_layouts(app_name=app_name, **kwargs)
+    register_page_layouts(
+        app_name=app_name,
+        views_module=views_module,
+    )
     return app
 
 
-def add_base_layout(app=None, **kwargs):
+def add_base_layout(app=None, app_name=None, **kwargs):
     """
 
     :param app:
+    :param app_name:
     :param kwargs:
     :return:
     """
@@ -75,7 +86,7 @@ def add_base_layout(app=None, **kwargs):
                 if page.get("top_nav")
             ],
         ),
-        brand=kwargs.get("app_name", DEFAULT_APP_NAME),
+        brand=app_name,
         color="primary",
         dark=True,
         className="mb-2",
@@ -88,13 +99,30 @@ def add_base_layout(app=None, **kwargs):
     return app
 
 
-def run_entrypoint(**kwargs):
-    app = get_app(**kwargs)
-    app = add_base_layout(app=app, **kwargs)
+def run_entrypoint(
+    app_name=DEFAULT_APP_NAME,
+    ip_address=get_local_ip_address(),
+    views_module=DEFAULT_VIEWS_MODULE,
+    port=9050,
+    debug=False,
+    **kwargs,
+):
+    """Entrypoint for dash multi-page app wrapper.
+
+    :param app_name:
+    :param ip_address:
+    :param views_module:
+    :param port:
+    :param debug:
+    :param kwargs:
+    :return:
+    """
+    app = get_app(app_name=app_name, views_module=views_module)
+    app = add_base_layout(app=app, app_name=app_name, **kwargs)
     app.run_server(
-        host=kwargs.get("ip_address"),
-        port=kwargs.get("port"),
-        debug=kwargs.get("debug"),
+        host=ip_address,
+        port=port,
+        debug=debug,
     )
 
 
