@@ -20,7 +20,7 @@ def layout():
 
     # Table variables
     table_1 = "Procedures"
-    subject_ids = ["A", "B", "C", "X", "Y", "Z"]
+    subject_ids = ["A-A", "A-B", "A-C", "XX", "XY", "XZ"]
     times = make_times_list_24h()
     dates = make_dates_list()
     dt = datetime.now()
