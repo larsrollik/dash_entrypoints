@@ -79,10 +79,12 @@ def layout():
         save_path = Path("/tmp/tmp__table_output.yaml")
         save_path.parent.mkdir(parents=True, exist_ok=True)
         if save_path.exists():
-            raise FileExistsError(save_path)
+            print("Exists:", save_path.as_posix())
 
         with open(save_path, "w") as f:
             f.write(yaml.dump(input_data))
             print(f"\n{save_path}\n")
+
+        return []
 
     return layout
