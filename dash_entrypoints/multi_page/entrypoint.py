@@ -139,7 +139,7 @@ def add_base_layout(app=None, app_name=None, **kwargs):
                             dbc.NavLink(
                                 str(page["name"])
                                 .capitalize()
-                                .replace("__", "🠖")
+                                .replace("__", " / ")
                                 .replace("_", " "),
                                 href=page["path"],
                             )
