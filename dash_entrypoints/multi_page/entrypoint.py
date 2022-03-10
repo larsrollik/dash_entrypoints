@@ -6,7 +6,11 @@ from pathlib import Path
 import dash
 import dash_bootstrap_components as dbc
 import dash_labs as dl
+from dash import callback
 from dash import html
+from dash import Input
+from dash import Output
+from dash import State
 
 from dash_entrypoints.misc import get_local_ip_address
 
@@ -76,6 +80,57 @@ def add_base_layout(app=None, app_name=None, **kwargs):
     """
     assert hasattr(dash, "page_registry")
 
+    # navbar = dbc.Navbar(
+    #     dbc.Container(
+    #         [
+    #             html.A(
+    #                 # Use row and col to control vertical alignment of logo / brand
+    #                 dbc.Row(
+    #                     [
+    #                         dbc.Col(dbc.NavbarBrand(app_name, className="ms-2")),
+    #                     ],
+    #                     align="center",
+    #                     className="g-0",
+    #                 ),
+    #                 href=f"http://{kwargs.get('ip_address')}:{kwargs.get('port')}",
+    #                 style={"textDecoration": "none"},
+    #             ),
+    #         ]
+    #     ),
+    #     color="dark",
+    #     dark=True,
+    # )
+    #
+    # navbar = dbc.NavbarSimple(
+    #     dbc.DropdownMenu(
+    #         [
+    #             dbc.DropdownMenuItem(page["name"], href=page["path"])
+    #             for page in dash.page_registry.values()
+    #             if page["module"] != "pages.not_found_404"
+    #         ],
+    #         nav=True,
+    #         label="More Pages",
+    #     ),
+    #     brand=app_name,
+    #     color="dark",
+    #     dark=True,
+    #     className="mb-2",
+    # )
+    #
+    # navbar = dbc.NavbarSimple(
+    #     dbc.Nav(
+    #         [
+    #             dbc.NavLink(page["name"], href=page["path"])
+    #             for page in dash.page_registry.values()
+    #             if page.get("top_nav")
+    #         ],
+    #     ),
+    #     brand=app_name,
+    #     color="dark",
+    #     dark=True,
+    #     className="mb-2",
+    # )
+
     navbar = dbc.Navbar(
         dbc.Container(
             [
@@ -83,6 +138,7 @@ def add_base_layout(app=None, app_name=None, **kwargs):
                     # Use row and col to control vertical alignment of logo / brand
                     dbc.Row(
                         [
+                            # dbc.Col(html.Img(src=PLOTLY_LOGO, height="30px")),
                             dbc.Col(dbc.NavbarBrand(app_name, className="ms-2")),
                         ],
                         align="center",
@@ -90,6 +146,28 @@ def add_base_layout(app=None, app_name=None, **kwargs):
                     ),
                     href=f"http://{kwargs.get('ip_address')}:{kwargs.get('port')}",
                     style={"textDecoration": "none"},
+                ),
+                dbc.DropdownMenu(
+                    [
+                        dbc.DropdownMenuItem(page["name"], href=page["path"])
+                        for page in dash.page_registry.values()
+                        if page["module"] != "pages.not_found_404"
+                    ],
+                    nav=True,
+                    label="main dropdown",
+                ),
+                dbc.NavbarToggler(id="navbar-toggler", n_clicks=0),
+                dbc.Collapse(
+                    dbc.Nav(
+                        [
+                            dbc.NavLink(page["name"], href=page["path"])
+                            for page in dash.page_registry.values()
+                            if page["module"] != "pages.not_found_404"
+                        ],
+                    ),
+                    id="navbar-collapse",
+                    is_open=False,
+                    navbar=True,
                 ),
             ]
         ),
@@ -101,6 +179,17 @@ def add_base_layout(app=None, app_name=None, **kwargs):
         [navbar, dl.plugins.page_container],
         fluid=True,
     )
+
+    @callback(
+        Output("navbar-collapse", "is_open"),
+        [Input("navbar-toggler", "n_clicks")],
+        [State("navbar-collapse", "is_open")],
+    )
+    def toggle_navbar_collapse(n, is_open):
+        if n:
+            return not is_open
+        return is_open
+
     return app
 
 
