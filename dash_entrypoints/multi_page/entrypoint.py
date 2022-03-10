@@ -18,16 +18,26 @@ DEFAULT_APP_NAME = "InterfaceEntrypoint"
 DEFAULT_VIEWS_MODULE = "dash_entrypoints.views"
 
 
-def _do_register_module_as_page(app_name=None, layout_file=None, views_imported=None):
+def import_layout_function(layout_file=None, views_imported=None):
     layout_name = layout_file.name.replace(".py", "")
     layout_path = layout_name.replace("__", "/")
     page = importlib.import_module(f"{views_imported.__package__}.{layout_name}")
     if hasattr(page, "layout"):
+        return page.layout, layout_name, layout_path
+    else:
+        return None, None, None
+
+
+def _do_register_module_as_page(app_name=None, layout_file=None, views_imported=None):
+    page_layout, layout_name, layout_path = import_layout_function(
+        layout_file=layout_file, views_imported=views_imported
+    )
+    if page_layout is not None:
         dash.register_page(
             module=layout_name,
             title=f"{app_name}: " + layout_path,
             name=layout_name,
-            layout=page.layout,
+            layout=page_layout,
             path="/" + layout_path,
             top_nav=True,
         )
@@ -49,21 +59,24 @@ def register_page_layouts(
     layout_paths = sorted(Path(views_imported.__path__[0]).rglob("*.py"))
     layout_files = [lay for lay in layout_paths if not lay.name.startswith("__")]
 
-    if register_blank_frontpage:
-        dash.register_page(
-            module="",
-            title=app_name,
-            name="",
-            layout=lambda layout: html.Div(),
-            path="/",
-            top_nav=True,
-        )
-    else:
-        # Try to find front page in modules __init__
-        frontpage_file = [lay for lay in layout_paths if lay.name.startswith("__")][0]
-        _do_register_module_as_page(
-            app_name=app_name, layout_file=frontpage_file, views_imported=views_imported
-        )
+    def empty_layout():
+        return html.Div()
+
+    frontpage_file = [lay for lay in layout_paths if lay.name.startswith("__")][0]
+    front_page_layout, layout_name, layout_path = import_layout_function(
+        layout_file=frontpage_file, views_imported=views_imported
+    )
+    front_page_layout = (
+        front_page_layout if front_page_layout is not None else empty_layout
+    )
+    dash.register_page(
+        module="",
+        title=app_name,
+        name="",
+        layout=empty_layout if register_blank_frontpage else front_page_layout,
+        path="/",
+        top_nav=True,
+    )
 
     # Register other views
     for layout_file in layout_files:
@@ -94,7 +107,7 @@ def get_app(
 
 
 def add_base_layout(app=None, app_name=None, **kwargs):
-    """
+    """Add base layout including navigation bar with page links.
 
     :param app:
     :param app_name:
@@ -110,7 +123,7 @@ def add_base_layout(app=None, app_name=None, **kwargs):
                     # Use row and col to control vertical alignment of logo / brand
                     dbc.Row(
                         [
-                            # dbc.Col(html.Img(src=PLOTLY_LOGO, height="30px")),
+                            # dbc.Col(html.Img(src=PLOTLY_LOGO, height="30px")),  # TODO: add app_name as image
                             dbc.Col(dbc.NavbarBrand(app_name, className="ms-2")),
                         ],
                         align="center",
@@ -119,21 +132,15 @@ def add_base_layout(app=None, app_name=None, **kwargs):
                     href=f"http://{kwargs.get('ip_address')}:{kwargs.get('port')}",
                     style={"textDecoration": "none"},
                 ),
-                # dbc.DropdownMenu(
-                #     [
-                #         dbc.DropdownMenuItem(page["name"], href=page["path"])
-                #         for page in dash.page_registry.values()
-                #         if page["module"] != "pages.not_found_404"
-                #     ],
-                #     nav=True,
-                #     label="main dropdown",
-                # ),
                 dbc.NavbarToggler(id="navbar-toggler", n_clicks=0),
                 dbc.Collapse(
                     dbc.Nav(
                         [
                             dbc.NavLink(
-                                str(page["name"]).capitalize().replace("__", "/"),
+                                str(page["name"])
+                                .capitalize()
+                                .replace("__", "🠖")
+                                .replace("_", " "),
                                 href=page["path"],
                             )
                             for page in dash.page_registry.values()
