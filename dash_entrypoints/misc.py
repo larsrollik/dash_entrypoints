@@ -1,4 +1,5 @@
 import socket
+from uuid import uuid4
 
 
 def get_local_ip_address():
@@ -13,3 +14,7 @@ def get_local_ip_address():
     finally:
         s.close()
     return ip
+
+
+def add_random_id(input_string=None):
+    return "__".join([input_string, str(uuid4())])

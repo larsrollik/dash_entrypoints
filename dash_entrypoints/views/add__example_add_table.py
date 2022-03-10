@@ -13,6 +13,7 @@ from dash.exceptions import PreventUpdate
 from dash_entrypoints.elements.datatable import add_table
 from dash_entrypoints.elements.datatable import make_dates_list
 from dash_entrypoints.elements.datatable import make_times_list_24h
+from dash_entrypoints.misc import add_random_id
 
 
 def layout():
@@ -39,8 +40,8 @@ def layout():
     }
 
     # LAYOUT
-    submit_btn = "submit_btn_234532"
-    dummy_div = "dummy_div_456546"
+    submit_btn = add_random_id("submit_btn")
+    dummy_div = add_random_id("hidden_div")
 
     layout = html.Div(
         [
