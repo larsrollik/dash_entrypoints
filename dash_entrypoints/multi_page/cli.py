@@ -2,8 +2,8 @@ import argparse
 import logging
 import sys
 
-from dash_entrypoints.entrypoint import run_entrypoint
 from dash_entrypoints.misc import get_local_ip_address
+from dash_entrypoints.multi_page.entrypoint import run_entrypoint
 
 
 def make_parser():
