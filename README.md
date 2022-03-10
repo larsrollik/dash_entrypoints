@@ -14,8 +14,8 @@
 ### TODO
 
 - [x] document entrypoint for CLI and python
-- [ ] add elements like `DataTable` wrapper
-- [ ] add options to change base layout from `NavbarSimple`
+- [x] add elements like `DataTable` wrapper
+- [x] add options to change base layout from `NavbarSimple`. -> Added `Navbar`
 
 
 

@@ -6,6 +6,7 @@ from pathlib import Path
 import dash
 import dash_bootstrap_components as dbc
 import dash_labs as dl
+from dash import html
 
 from dash_entrypoints.misc import get_local_ip_address
 
@@ -75,21 +76,25 @@ def add_base_layout(app=None, app_name=None, **kwargs):
     """
     assert hasattr(dash, "page_registry")
 
-    navbar = dbc.NavbarSimple(
-        dbc.Nav(
+    navbar = dbc.Navbar(
+        dbc.Container(
             [
-                dbc.NavLink(
-                    f"→ {page['name'].capitalize().replace('_', ' ')}",
-                    href=page["path"],
-                )
-                for page in dash.page_registry.values()
-                if page.get("top_nav")
-            ],
+                html.A(
+                    # Use row and col to control vertical alignment of logo / brand
+                    dbc.Row(
+                        [
+                            dbc.Col(dbc.NavbarBrand(app_name, className="ms-2")),
+                        ],
+                        align="center",
+                        className="g-0",
+                    ),
+                    href=f"http://{kwargs.get('ip_address')}:{kwargs.get('port')}",
+                    style={"textDecoration": "none"},
+                ),
+            ]
         ),
-        brand=app_name,
-        color="primary",
+        color="dark",
         dark=True,
-        className="mb-2",
     )
 
     app.layout = dbc.Container(
@@ -118,7 +123,9 @@ def run_entrypoint(
     :return:
     """
     app = get_app(app_name=app_name, views_module=views_module)
-    app = add_base_layout(app=app, app_name=app_name, **kwargs)
+    app = add_base_layout(
+        app=app, app_name=app_name, ip_address=ip_address, port=port, **kwargs
+    )
     app.run_server(
         host=ip_address,
         port=port,
