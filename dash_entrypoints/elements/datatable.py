@@ -1,10 +1,41 @@
+from datetime import datetime
+
 import dash_html_components as html
 import dash_table
+import numpy as np
 import pandas as pd
 from dash import callback
 from dash import Input
 from dash import Output
 from dash import State
+
+
+def make_times_list_24h(step_hours=1, step_minutes=5):
+    """Makes list of time combinations of hours/minutes in given spacing. For dropdown table columns.
+
+    :param step_hours:
+    :param step_minutes:
+    :return:
+    """
+    minutes = np.arange(0, 60, step_minutes)
+    hours = np.arange(0, 24, step_hours)
+    times_list = [f"{h}:{m:0>2}" for h in hours for m in minutes]
+    return times_list
+
+
+def make_dates_list(years=None, months=np.arange(1, 13, 1), days=np.arange(1, 32, 1)):
+    """Makes list of date combinations of "%Y-%m-%d" in given spacing. For dropdown table columns.
+
+    :param years: list of year str like dt.strftime("%Y") format
+    :param months: list of
+    :param days:
+    :return:
+    """
+    if not years:
+        years = [datetime.now().strftime("%Y")]
+
+    dates_list = [f"{Y}-{M:0>2}-{D:0>2}" for Y in years for M in months for D in days]
+    return dates_list
 
 
 def add_table(
