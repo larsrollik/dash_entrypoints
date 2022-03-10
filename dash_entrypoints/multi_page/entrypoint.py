@@ -18,11 +18,29 @@ DEFAULT_APP_NAME = "InterfaceEntrypoint"
 DEFAULT_VIEWS_MODULE = "dash_entrypoints.views"
 
 
-def register_page_layouts(app_name=DEFAULT_APP_NAME, views_module=None):
+def _do_register_module_as_page(app_name=None, layout_file=None, views_imported=None):
+    layout_name = layout_file.name.replace(".py", "")
+    layout_path = layout_name.replace("__", "/")
+    page = importlib.import_module(f"{views_imported.__package__}.{layout_name}")
+    if hasattr(page, "layout"):
+        dash.register_page(
+            module=layout_name,
+            title=f"{app_name}: " + layout_path,
+            name=layout_name,
+            layout=page.layout,
+            path="/" + layout_path,
+            top_nav=True,
+        )
+
+
+def register_page_layouts(
+    app_name=DEFAULT_APP_NAME, views_module=None, register_blank_frontpage=False
+):
     """Register the page layouts in the subfolders of the views_module.
 
     :param app_name:
     :param views_module:
+    :param register_blank_frontpage:
     :param kwargs:
     :return:
     """
@@ -31,20 +49,25 @@ def register_page_layouts(app_name=DEFAULT_APP_NAME, views_module=None):
     layout_paths = sorted(Path(views_imported.__path__[0]).rglob("*.py"))
     layout_files = [lay for lay in layout_paths if not lay.name.startswith("__")]
 
-    for layout_file in layout_files:
-        layout_name = layout_file.name.replace(".py", "")
-        layout_path = layout_name.replace("__", "/")
-        page = importlib.import_module(f"{views_imported.__package__}.{layout_name}")
+    if register_blank_frontpage:
+        dash.register_page(
+            module="",
+            title=app_name,
+            name="",
+            layout=lambda layout: html.Div(),
+            path="/",
+            top_nav=True,
+        )
+    else:
+        # Try to find front page in modules __init__
+        frontpage_file = [lay for lay in layout_paths if lay.name.startswith("__")][0]
+        _do_register_module_as_page(
+            app_name=app_name, layout_file=frontpage_file, views_imported=views_imported
+        )
 
-        if hasattr(page, "layout"):
-            dash.register_page(
-                module=layout_name,
-                title=f"{app_name}: " + layout_path,
-                name=layout_name,
-                layout=page.layout,
-                path="/" + layout_path,
-                top_nav=True,
-            )
+    # Register other views
+    for layout_file in layout_files:
+        _do_register_module_as_page(app_name, layout_file, views_imported)
 
 
 def get_app(
@@ -109,7 +132,10 @@ def add_base_layout(app=None, app_name=None, **kwargs):
                 dbc.Collapse(
                     dbc.Nav(
                         [
-                            dbc.NavLink(page["name"], href=page["path"])
+                            dbc.NavLink(
+                                str(page["name"]).capitalize().replace("__", "/"),
+                                href=page["path"],
+                            )
                             for page in dash.page_registry.values()
                             if page["module"] != "pages.not_found_404"
                         ],
