@@ -83,7 +83,7 @@ def layout():
 
         with open(save_path, "w") as f:
             f.write(yaml.dump(input_data))
-            print(f"\n{save_path}\n")
+            print(f"\nWritten to: {save_path}\n")
 
         return [True]
 
