@@ -66,7 +66,7 @@ def layout():
     ]
 
     @callback(
-        [Output(dummy_div, "data")],
+        [Output(dummy_div, "hidden")],
         state_inputs,
     )
     def save_entry(n_clicks, *args):
@@ -85,6 +85,6 @@ def layout():
             f.write(yaml.dump(input_data))
             print(f"\n{save_path}\n")
 
-        return []
+        return True
 
     return layout
