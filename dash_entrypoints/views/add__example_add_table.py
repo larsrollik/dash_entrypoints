@@ -74,7 +74,7 @@ def layout():
             raise PreventUpdate
 
         input_data = dict(zip(table_names, args))
-        print(yaml.dump(input_data))
+        print("\n", yaml.dump(input_data), "\n")
 
         save_path = Path("/tmp/tmp__table_output.yaml")
         save_path.parent.mkdir(parents=True, exist_ok=True)
@@ -85,6 +85,6 @@ def layout():
             f.write(yaml.dump(input_data))
             print(f"\n{save_path}\n")
 
-        return True
+        return [True]
 
     return layout
