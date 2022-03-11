@@ -20,7 +20,7 @@ def layout():
         ]
     )
 
-    @callback([Output(text_h5, "label")], Input(submit_btn, "n_clicks"))
+    @callback([Output(text_h5, "title")], Input(submit_btn, "n_clicks"))
     def f(n_clicks):
         print(n_clicks)
         return f"Clicks: {n_clicks}"
