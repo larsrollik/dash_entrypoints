@@ -62,7 +62,7 @@ def layout():
     table_names = [
         table_1,
     ]
-    state_inputs = [Input(submit_btn, "n_clicks")] + [
+    state_inputs = [Input(f"{table_1}-button", "n_clicks")] + [
         State(t, "data") for t in table_names
     ]
 
