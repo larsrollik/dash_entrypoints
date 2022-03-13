@@ -45,9 +45,6 @@ setup(
     author="Lars B. Rollik",
     author_email="L.B.ROLLIK@protonmail.com",
     license=license_text,
-    include_package_data=True,
-    # package_data={
-    #     'dash_entrypoints': ["dash_entrypoints/assets/*",],
-    # },
-    zip_safe=True,
+    include_package_data=True,  # + zip_safe=False + MANIFEST.in recursive include package *.glob
+    zip_safe=False,
 )

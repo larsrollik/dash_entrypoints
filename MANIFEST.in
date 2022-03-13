@@ -2,3 +2,4 @@ prune tests
 prune data
 prune resources
 prune .github
+recursive-include dash_entrypoints *.css
