@@ -1,3 +1,5 @@
+from typing import Callable
+
 import numpy as np
 from dash import callback
 from dash import html
@@ -5,7 +7,6 @@ from dash import Input
 from dash import Output
 from dash import State
 from dash.exceptions import PreventUpdate
-from typing import Callable
 
 
 def wrap_part_layout_for_callback(

@@ -7,6 +7,7 @@ DEFAULT_TABLE_NAME = "--".join([__name__, "table"]).replace(".", "--")
 def add_table_for_selection(
     df=None,
     table_name=DEFAULT_TABLE_NAME,
+    single_select=False,
     page_size=20,
 ):
     output_layout = html.Div(
@@ -22,7 +23,7 @@ def add_table_for_selection(
                 filter_action="native",
                 sort_action="native",
                 sort_mode="multi",
-                row_selectable="multi",
+                row_selectable="single" if single_select else "multi",
                 row_deletable=False,
                 selected_columns=[],
                 selected_rows=[],
