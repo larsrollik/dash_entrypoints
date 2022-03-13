@@ -58,16 +58,19 @@ See for elements in `from interfaces_entrypoint import elements`
 ##### `dash.DataTable`
 
 ###### With column dropdowns
+
 ```python
-from dash_entrypoints.elements.datatable import add_table_with_dropdown_columns
+from dash_entrypoints.elements.table_with_dropdown import add_table_with_dropdown_columns
 
 kwargs = {}
 table = add_table_with_dropdown_columns(**kwargs)
 ```
 
 ###### With selection handles
+
 ```python
-from dash_entrypoints.elements.datatable import add_table_for_selection
+
+from dash_entrypoints.elements.table_for_selection import add_table_for_selection
 
 kwargs = {}
 table = add_table_for_selection(**kwargs)

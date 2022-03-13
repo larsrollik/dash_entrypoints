@@ -6,7 +6,7 @@ from dash import Output
 from dash import State
 from dash.exceptions import PreventUpdate
 
-from dash_entrypoints.elements.datatable import add_table_for_selection
+from dash_entrypoints.elements.table_for_selection import add_table_for_selection
 
 
 def make_test_subject_ids():
