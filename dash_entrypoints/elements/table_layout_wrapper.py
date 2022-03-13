@@ -88,7 +88,7 @@ def wrap_part_layout_for_callback(
         if callback_output_tuple is None:
             return [None]
         else:
-            print("Returning output value from layout wrapper...")
+            print("Returning output value from layout wrapper...", callback_return_value)
             return callback_return_value
 
     return complete_layout
