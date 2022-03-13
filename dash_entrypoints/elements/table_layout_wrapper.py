@@ -14,6 +14,7 @@ def wrap_part_layout_for_callback(
     part_layout_post: list = None,
     page_title: str = None,
     callback_state_tuples: list = None,
+    callback_output_tuple: list = None,
     callback_fun: Callable = None,
     callback_kwargs: dict = None,
     button_label: str = "Submit",
@@ -24,6 +25,7 @@ def wrap_part_layout_for_callback(
     :param part_layout_post:
     :param page_title:
     :param callback_state_tuples:
+    :param callback_output_tuple:
     :param callback_fun:
     :param callback_kwargs:
     :param button_label:
@@ -63,13 +65,16 @@ def wrap_part_layout_for_callback(
 
     complete_layout = html.Div(layout_list)
 
-    # Callback
+    # Callback: state input
     input_states = [State(state, var) for (state, var) in callback_state_tuples]
     state_source = [state[0] for state in callback_state_tuples]
     state_names = [state[1] for state in callback_state_tuples]
 
+    # Callback: output
+    callback_output = Output(hidden_div_name, "children") if callback_output_tuple is None else Output(*callback_output_tuple)
+
     @callback(
-        [Output(hidden_div_name, "children")],
+        [callback_output],
         [Input(button_name, "n_clicks")] + input_states,
     )
     def callback_wrapper_fun(n_clicks, *state_args):
@@ -78,10 +83,8 @@ def wrap_part_layout_for_callback(
 
         state_data_tuples = list(zip(state_source, state_names, state_args))
         callback_fun(state_data_tuples, **callback_kwargs)
-
         # print("\n\n", "n_clicks", n_clicks)
         # print("state_args", state_args)
-
         return [None]
 
     return complete_layout
