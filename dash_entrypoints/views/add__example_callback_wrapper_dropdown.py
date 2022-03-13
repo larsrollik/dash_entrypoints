@@ -1,54 +1,94 @@
-import pandas as pd
+from datetime import datetime
 
-from dash_entrypoints.elements.table_for_selection import add_table_for_selection
+import pandas as pd
+import yaml
+
 from dash_entrypoints.elements.table_layout_wrapper import wrap_part_layout_for_callback
 from dash_entrypoints.elements.table_with_dropdown import (
     add_table_with_dropdown_columns,
 )
-
-
-def make_test_subject_ids():
-    import string
-
-    az_list = [a for a in string.ascii_uppercase]
-    return az_list
+from dash_entrypoints.elements.table_with_dropdown import make_dates_list
+from dash_entrypoints.elements.table_with_dropdown import make_times_list_24h
 
 
 def example_callback_fun(state_data_tuples, **kwargs):
     print("\n\n in example_callback_fun")
-    print("--> state_data_tuples", state_data_tuples)
-    print("--> kwargs", kwargs)
-    # print(
-    #     "--> data:",
-    #     pd.DataFrame(state_data_tuples[1][-1]).iloc[state_data_tuples[0][-1]],
-    # )
-    # print("\n", yaml.dump(input_data), "\n")  # TODO: dump all table data into yaml format
-    # TODO: write to file as in add__example_table_dropdown.py
-    # TODO: add file path to input kwargs
+    # print("--> state_data_tuples", state_data_tuples)
+    # print("--> kwargs", kwargs)
+
+    yaml_items = [{table: data} for (table, field, data) in state_data_tuples]
+    yaml_str = yaml.dump(yaml_items)
+    print("\n", yaml_str, "\n")
+
+    with open(kwargs.get("save_path", "/tmp/example_table_content.yaml"), "w") as f:
+        f.write(yaml.dump(yaml_str))
+        print(f"\n{f.name}\n")
+
     print("\n END \n")
 
 
 def layout():
-    az_list = make_test_subject_ids()
-    df = pd.DataFrame(az_list, columns=["subject_id"])
-    table_name = "--".join([__name__, "table-name"]).replace(".", "")
-
-    # TODO: add multiple dropdown tables
-    part_layout = (
-        add_table_for_selection(
-            df=df,
-            table_name=table_name,
-            page_size=20,
-        ),
+    table_1 = "Procedures"
+    subject_ids = ["A-A", "A-B", "A-C", "XX", "XY", "XZ"]
+    times = make_times_list_24h()
+    dates = make_dates_list()
+    dt = datetime.now()
+    df_for_table_1 = pd.DataFrame(
+        {
+            "subject_id": subject_ids,
+            "procedure_date": dt.date().strftime("%Y-%m-%d"),
+            "procedure_time_start": pd.to_datetime(dt).round("5min").strftime("%H:%M"),
+        }
     )
+    dropdown_options_procedures_1 = {
+        "subject_id": subject_ids,
+        "procedure_date": dates,
+        "procedure_time_start": times,
+        "procedure_time_end": times,
+    }
 
+    table_2 = "AdditionalFactor"
+    subject_ids = ["A-A", "A-B", "A-C", "XX", "XY", "XZ"]
+    times = make_times_list_24h()
+    dates = make_dates_list()
+    dt = datetime.now()
+    df_for_table_2 = pd.DataFrame(
+        {
+            "subject_id": subject_ids,
+            "procedure_date": dt.date().strftime("%Y-%m-%d"),
+            "procedure_time_start": pd.to_datetime(dt).round("5min").strftime("%H:%M"),
+        }
+    )
+    dropdown_options_procedures_2 = {
+        "subject_id": subject_ids,
+        "procedure_date": dates,
+        "procedure_time_start": times,
+        "procedure_time_end": times,
+    }
+
+    part_layout = [
+        add_table_with_dropdown_columns(
+            table_name=table_1,
+            df=df_for_table_1,
+            dropdown_options=dropdown_options_procedures_1,
+            table_expandable=False,
+        ),
+        add_table_with_dropdown_columns(
+            table_name=table_2,
+            df=df_for_table_2,
+            dropdown_options=dropdown_options_procedures_2,
+        ),
+    ]
+
+    # for each table, add (table_name, "data")
+    callback_state_tuples = [
+        (table_1, "data"),
+        (table_2, "data"),
+    ]
     complete_layout = wrap_part_layout_for_callback(
         part_layout=part_layout,
         page_title="TEST-wrap-dropdown",
-        callback_state_tuples=[
-            (table_name, "selected_rows"),
-            (table_name, "data"),
-        ],  # TODO: for each table, add (table_name, "data")
+        callback_state_tuples=callback_state_tuples,
         callback_fun=example_callback_fun,
         callback_kwargs={"save_path": "/tmp/example_callback_wrapper_basepath"},
     )
