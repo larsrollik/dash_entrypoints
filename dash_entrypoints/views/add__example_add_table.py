@@ -13,7 +13,6 @@ from dash.exceptions import PreventUpdate
 from dash_entrypoints.elements.datatable import add_table
 from dash_entrypoints.elements.datatable import make_dates_list
 from dash_entrypoints.elements.datatable import make_times_list_24h
-from dash_entrypoints.misc import add_random_id
 
 
 def layout():
@@ -32,7 +31,7 @@ def layout():
             "procedure_time_start": pd.to_datetime(dt).round("5min").strftime("%H:%M"),
         }
     )
-    dropdown_options_surgery = {
+    dropdown_options_procedures = {
         "subject_id": subject_ids,
         "procedure_date": dates,
         "procedure_time_start": times,
@@ -40,19 +39,21 @@ def layout():
     }
 
     # LAYOUT
-    submit_btn = add_random_id("submit_btn")
-    dummy_div = add_random_id("hidden_div")
+    from uuid import uuid4
 
+    submit_btn = "submit--23r98y98feondlkn1oi"
+    dummy_div = "dummy--as245923ur923hr913"
+
+    table_layout = add_table(
+        table_name=table_1,
+        df=df_for_table,
+        dropdown_options=dropdown_options_procedures,
+        table_expandable=False,
+    )
     layout = html.Div(
         [
-            add_table(
-                table_name=table_1,
-                df=df_for_table,
-                dropdown_options=dropdown_options_surgery,
-                table_expandable=False,
-            ),
+            table_layout,
             # NOTE: add other tables here
-            html.Hr(),
             html.Button("Submit!", id=submit_btn),
             html.Div(id=dummy_div, hidden=True),
             html.Br(),
@@ -62,13 +63,11 @@ def layout():
     table_names = [
         table_1,
     ]
-    state_inputs = [Input(submit_btn, "n_clicks")] + [
-        State(t, "data") for t in table_names
-    ]
+    state_inputs = [State(t, "data") for t in table_names]
 
     @callback(
-        [Output(dummy_div, "hidden")],
-        state_inputs,
+        Output(dummy_div, "hidden"),
+        [Input(submit_btn, "n_clicks")] + state_inputs,
     )
     def save_entry(n_clicks, *args):
         if n_clicks is None:
@@ -86,6 +85,6 @@ def layout():
             f.write(yaml.dump(input_data))
             print(f"\nWritten to: {save_path}\n")
 
-        return [True]
+        return  # [True]
 
     return layout

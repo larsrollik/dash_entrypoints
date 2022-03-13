@@ -1,5 +1,8 @@
+import json
 import socket
 from uuid import uuid4
+
+import dash
 
 
 def get_local_ip_address():
@@ -16,5 +19,14 @@ def get_local_ip_address():
     return ip
 
 
-def add_random_id(input_string=None):
-    return "__".join([input_string, str(uuid4())])
+def get_callback_context():
+    context = dash.callback_context
+    ctx = json.dumps(
+        {
+            "states": context.states,
+            "triggered": context.triggered,
+            "inputs": context.inputs,
+        },
+        indent=2,
+    )
+    return ctx

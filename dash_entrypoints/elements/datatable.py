@@ -1,5 +1,7 @@
 from datetime import datetime
+from pathlib import Path
 
+import dash_bootstrap_components as dbc
 import dash_html_components as html
 import dash_table
 import numpy as np
@@ -39,12 +41,12 @@ def make_dates_list(years=None, months=np.arange(1, 13, 1), days=np.arange(1, 32
 
 
 def add_table(
-    table_name=None,
-    df=None,
-    dropdown_options=None,
-    dropdown_columns=[],
-    table_expandable=True,
-    table_width=90,
+    table_name: str = None,
+    df: pd.DataFrame = None,
+    dropdown_options: dict = None,
+    dropdown_columns: list = None,
+    table_expandable: bool = True,
+    table_width: int = 90,
     **kwargs,
 ):
     """Dash DataTable wrapper to provide dropdown columns along with free field columns. Tables are row extendable.
@@ -87,6 +89,7 @@ def add_table(
     ]
 
     table_title = str(table_name).replace("_", " ").capitalize()
+    table_button_name = "--".join([__name__, table_name]).replace(".", "--")
 
     layout = html.Div(
         [
@@ -102,10 +105,9 @@ def add_table(
                 dropdown=dropdown_options,
             ),
             html.Div(id=f"{table_name}-container"),
-            html.Button("Add Row", id=f"{table_name}-button", n_clicks=0)
+            html.Button("Add Row", id=table_button_name, n_clicks=0)
             if table_expandable
-            else html.Div(),
-            html.Br(),
+            else html.Div(hidden=True),
         ],
         style={
             "padding": "10px",
@@ -113,15 +115,19 @@ def add_table(
         },
     )
 
-    @callback(
-        Output(table_name, "data"),
-        Input(f"{table_name}-button", "n_clicks"),
-        State(table_name, "data"),
-        State(table_name, "columns"),
-    )
-    def add_row(n_clicks, rows, columns):
-        if n_clicks > 0:
-            rows.append({c["id"]: "" for c in columns})
-        return rows
+    if table_expandable:
+
+        @callback(
+            Output(table_name, "data"),
+            [
+                Input(table_button_name, "n_clicks"),
+                State(table_name, "data"),
+                State(table_name, "columns"),
+            ],
+        )
+        def add_row(n_clicks, rows, columns):
+            if n_clicks > 0:
+                rows.append({c["id"]: "" for c in columns})
+            return rows
 
     return layout

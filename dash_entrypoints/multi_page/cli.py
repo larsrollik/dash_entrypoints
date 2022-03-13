@@ -3,6 +3,9 @@ import logging
 import sys
 
 from dash_entrypoints.misc import get_local_ip_address
+from dash_entrypoints.multi_page import DEFAULT_APP_NAME
+from dash_entrypoints.multi_page import DEFAULT_ASSETS_FOLDER
+from dash_entrypoints.multi_page import DEFAULT_VIEWS_MODULE
 from dash_entrypoints.multi_page.entrypoint import run_entrypoint
 
 
@@ -14,7 +17,7 @@ def make_parser():
         "--app-name",
         type=str,
         dest="app_name",
-        default="App name",
+        default=DEFAULT_APP_NAME,
         help="App name",
     )
     parser.add_argument(
@@ -30,8 +33,16 @@ def make_parser():
         "--views-module",
         type=str,
         dest="views_module",
-        default="dash_entrypoints.views",
+        default=DEFAULT_VIEWS_MODULE,
         help="Module import statement for module that contains pages, e.g. 'mypackage.page_subpackage' ",
+    )
+    parser.add_argument(
+        "-a",
+        "--assets-folder",
+        type=str,
+        dest="assets_folder",
+        default=DEFAULT_ASSETS_FOLDER,
+        help="Folder with stylesheet, script, image assets",
     )
     parser.add_argument(
         "--port",

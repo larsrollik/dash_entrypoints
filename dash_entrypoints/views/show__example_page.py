@@ -1,21 +1,34 @@
-import argparse
-import importlib
-import socket
 from pathlib import Path
 
-import dash
-import dash_labs as dl
 import numpy as np
 from dash import callback
-from dash import Dash
-from dash import dcc
 from dash import html
 from dash import Input
 from dash import Output
 from dash import State
+from dash.exceptions import PreventUpdate
+
+from dash_entrypoints.misc import get_callback_context
 
 
 def layout():
     """Example page layout. Shows a random number as proof of reload on every browser page refresh."""
-    layout = html.Div([html.H1(f"{__name__}, {np.random.randint(100)}")])
+
+    id_hidden_div = "--".join([__name__, "hidden-div"]).replace(".", "")
+    id_button = "--".join([__name__, "submit-button"]).replace(".", "")
+    layout = html.Div(
+        [
+            html.H1(f"{__name__}, {np.random.randint(100)}"),
+            html.Button("X!", id=id_button),
+            html.Div(id=id_hidden_div, hidden=True),
+        ]
+    )
+
+    @callback(Output(id_hidden_div, "hidden"), Input(id_button, "n_clicks"))
+    def x(n_clicks, *args):
+        if n_clicks is None:
+            raise PreventUpdate
+        print("CALLBACK:", {"n_clicks": n_clicks}, get_callback_context())
+        return
+
     return layout

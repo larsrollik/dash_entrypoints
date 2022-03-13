@@ -1,6 +1,4 @@
-import argparse
 import importlib
-import socket
 from pathlib import Path
 
 import dash
@@ -13,9 +11,9 @@ from dash import Output
 from dash import State
 
 from dash_entrypoints.misc import get_local_ip_address
-
-DEFAULT_APP_NAME = "InterfaceEntrypoint"
-DEFAULT_VIEWS_MODULE = "dash_entrypoints.views"
+from dash_entrypoints.multi_page import DEFAULT_APP_NAME
+from dash_entrypoints.multi_page import DEFAULT_ASSETS_FOLDER
+from dash_entrypoints.multi_page import DEFAULT_VIEWS_MODULE
 
 
 def import_layout_function(layout_file=None, views_imported=None):
@@ -86,6 +84,7 @@ def register_page_layouts(
 def get_app(
     app_name=DEFAULT_APP_NAME,
     views_module=None,
+    assets_folder=None,
 ):
     """
 
@@ -94,10 +93,15 @@ def get_app(
     :param kwargs:
     :return:
     """
+    local_stylesheets = sorted(Path(assets_folder).glob("*.css"))
+    local_scripts = sorted(Path(assets_folder).glob("*.js"))
+
     app = dash.Dash(
         name=app_name,
         plugins=[dl.plugins.pages],
-        external_stylesheets=[dbc.themes.BOOTSTRAP],
+        assets_folder=assets_folder,
+        external_stylesheets=local_stylesheets + [dbc.themes.BOOTSTRAP],
+        external_scripts=local_scripts,
     )
     register_page_layouts(
         app_name=app_name,
@@ -179,6 +183,7 @@ def run_entrypoint(
     app_name=DEFAULT_APP_NAME,
     ip_address=get_local_ip_address(),
     views_module=DEFAULT_VIEWS_MODULE,
+    assets_folder=DEFAULT_ASSETS_FOLDER,
     port=9050,
     debug=False,
     **kwargs,
@@ -188,12 +193,15 @@ def run_entrypoint(
     :param app_name:
     :param ip_address:
     :param views_module:
+    :param assets_folder:
     :param port:
     :param debug:
     :param kwargs:
     :return:
     """
-    app = get_app(app_name=app_name, views_module=views_module)
+    app = get_app(
+        app_name=app_name, views_module=views_module, assets_folder=assets_folder
+    )
     app = add_base_layout(
         app=app, app_name=app_name, ip_address=ip_address, port=port, **kwargs
     )
