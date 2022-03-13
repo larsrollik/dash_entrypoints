@@ -205,6 +205,10 @@ def run_entrypoint(
     app = add_base_layout(
         app=app, app_name=app_name, ip_address=ip_address, port=port, **kwargs
     )
+
+    if not debug:
+        app.config.suppress_callback_exceptions = True
+
     app.run_server(
         host=ip_address,
         port=port,
