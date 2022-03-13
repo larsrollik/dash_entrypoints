@@ -17,6 +17,7 @@
 - [x] add elements like `DataTable` wrapper
 - [x] add options to change base layout from `NavbarSimple`. -> Added `Navbar`
 - [ ] update `readme` with info on dropdown vs selection table wrappers
+- [ ] update `readme` with examples for `kwargs` and `button box`
 - [ ] callback function wrapper into own page layout nesting? call wrapper to get final layout. within wrapper, use table function to generate inner table. wrapper provides submit button + wrapped callback. See outline in `dash_entrypoints/views/add__example_table_selection.py`
 
 
@@ -27,7 +28,8 @@
 ```python
 from dash_entrypoints import run_entrypoint
 
-run_entrypoint()
+kwargs = {}
+run_entrypoint(**kwargs)
 ```
 
 
@@ -55,16 +57,26 @@ See for elements in `from interfaces_entrypoint import elements`
 
 ##### `dash.DataTable`
 
+###### With column dropdowns
 ```python
 from dash_entrypoints.elements.datatable import add_table_with_dropdown_columns
 
-table = add_table_with_dropdown_columns(app=app_object, ...)
+kwargs = {}
+table = add_table_with_dropdown_columns(**kwargs)
+```
+
+###### With selection handles
+```python
+from dash_entrypoints.elements.datatable import add_table_for_selection
+
+kwargs = {}
+table = add_table_for_selection(**kwargs)
 ```
 
 ##### `box for buttons`
 
 ```python
-
+# TODO
 ```
 
 
