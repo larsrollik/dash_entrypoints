@@ -54,6 +54,8 @@ def add_table_with_dropdown_columns(
     https://github.com/plotly/dash/issues/1140
     """
     assert isinstance(df, pd.DataFrame)
+    dropdown_columns = dropdown_columns or []
+
     if df.empty:
         df = df.append(pd.Series(), ignore_index=True)  # add one empty row
 
