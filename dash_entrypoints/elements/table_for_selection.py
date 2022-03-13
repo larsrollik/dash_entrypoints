@@ -1,10 +1,12 @@
 import dash_html_components as html
 import dash_table
 
+DEFAULT_TABLE_NAME = "--".join([__name__, "table"]).replace(".", "--")
+
 
 def add_table_for_selection(
     df=None,
-    table_name="--".join([__name__, "table"]).replace(".", "--"),
+    table_name=DEFAULT_TABLE_NAME,
     page_size=20,
 ):
     output_layout = html.Div(
