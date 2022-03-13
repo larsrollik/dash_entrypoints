@@ -35,7 +35,7 @@ def layout():
     )
 
     complete_layout = wrap_part_layout_for_callback(
-        part_layout=part_layout,
+        part_layout_pre=part_layout,
         page_title="TEST-wrap-selection",
         callback_state_tuples=[(table_name, "selected_rows"), (table_name, "data")],
         callback_fun=example_callback_fun,

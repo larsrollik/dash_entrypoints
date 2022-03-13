@@ -5,16 +5,29 @@ from dash import Input
 from dash import Output
 from dash import State
 from dash.exceptions import PreventUpdate
+from typing import Callable
 
 
 def wrap_part_layout_for_callback(
-    part_layout=None,
-    page_title=None,
-    callback_state_tuples=None,
-    callback_fun=None,
-    callback_kwargs=None,
+    part_layout_pre: list = None,
+    part_layout_post: list = None,
+    page_title: str = None,
+    callback_state_tuples: list = None,
+    callback_fun: Callable = None,
+    callback_kwargs: dict = None,
+    button_label: str = "Submit",
 ):
-    """"""
+    """
+
+    :param part_layout_pre:
+    :param part_layout_post:
+    :param page_title:
+    :param callback_state_tuples:
+    :param callback_fun:
+    :param callback_kwargs:
+    :param button_label:
+    :return:
+    """
     button_name = "--".join(
         [
             __name__,
@@ -35,14 +48,17 @@ def wrap_part_layout_for_callback(
     if page_title is not None:
         layout_list.append(html.H3(page_title))
 
-    if not isinstance(part_layout, list):
-        part_layout = [part_layout]
+    if not isinstance(part_layout_pre, list):
+        part_layout_pre = [part_layout_pre]
+    if not isinstance(part_layout_post, list):
+        part_layout_post = [part_layout_post]
 
-    layout_list += part_layout
+    layout_list += part_layout_pre
     layout_list += [
-        html.Button("Submit!", id=button_name, className="me-1"),
+        html.Button(button_label, id=button_name, className="me-1"),
         html.Div(id=hidden_div_name, hidden=True),
     ]
+    layout_list += part_layout_post
 
     complete_layout = html.Div(layout_list)
 

@@ -86,7 +86,7 @@ def layout():
         (table_2, "data"),
     ]
     complete_layout = wrap_part_layout_for_callback(
-        part_layout=part_layout,
+        part_layout_pre=part_layout,
         page_title="TEST-wrap-dropdown",
         callback_state_tuples=callback_state_tuples,
         callback_fun=example_callback_fun,
