@@ -10,13 +10,13 @@ from dash.dependencies import Output
 from dash.dependencies import State
 from dash.exceptions import PreventUpdate
 
-from dash_entrypoints.elements.datatable import add_table
+from dash_entrypoints.elements.datatable import add_table_with_dropdown_columns
 from dash_entrypoints.elements.datatable import make_dates_list
 from dash_entrypoints.elements.datatable import make_times_list_24h
 
 
 def layout():
-    """Example layout for `add_table` wrapper of dropdown columns."""
+    """Example layout for `add_table_with_dropdown_columns` wrapper of dropdown columns."""
 
     # Table variables
     table_1 = "Procedures"
@@ -41,7 +41,7 @@ def layout():
     submit_btn = "--".join([__name__, "submit-btn"]).replace(".", "")
     dummy_div = "--".join([__name__, "hidden-div"]).replace(".", "")
 
-    table_layout = add_table(
+    table_layout = add_table_with_dropdown_columns(
         table_name=table_1,
         df=df_for_table,
         dropdown_options=dropdown_options_procedures,

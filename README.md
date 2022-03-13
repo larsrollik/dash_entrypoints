@@ -16,7 +16,8 @@
 - [x] document entrypoint for CLI and python
 - [x] add elements like `DataTable` wrapper
 - [x] add options to change base layout from `NavbarSimple`. -> Added `Navbar`
-
+- [ ] update `readme` with info on dropdown vs selection table wrappers
+- [ ] callback function wrapper into own page layout nesting? call wrapper to get final layout. within wrapper, use table function to generate inner table. wrapper provides submit button + wrapped callback. See outline in `dash_entrypoints/views/add__example_table_selection.py`
 
 
 ### Entrypoint for multi-page apps
@@ -55,9 +56,9 @@ See for elements in `from interfaces_entrypoint import elements`
 ##### `dash.DataTable`
 
 ```python
-from dash_entrypoints.elements.datatable import add_table
+from dash_entrypoints.elements.datatable import add_table_with_dropdown_columns
 
-table = add_table(app=app_object, ...)
+table = add_table_with_dropdown_columns(app=app_object, ...)
 ```
 
 ##### `box for buttons`

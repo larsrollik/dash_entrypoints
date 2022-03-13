@@ -40,7 +40,7 @@ def make_dates_list(years=None, months=np.arange(1, 13, 1), days=np.arange(1, 32
     return dates_list
 
 
-def add_table(
+def add_table_with_dropdown_columns(
     table_name: str = None,
     df: pd.DataFrame = None,
     dropdown_options: dict = None,
@@ -58,6 +58,9 @@ def add_table(
     assert isinstance(df, pd.DataFrame)
     if df.empty:
         df = df.append(pd.Series(), ignore_index=True)  # add one empty row
+
+    table_title = str(table_name).replace("_", " ").capitalize()
+    table_button_name = "--".join([__name__, table_name]).replace(".", "--")
 
     # Full list of options as input ?
     if dropdown_options is not None:
@@ -87,9 +90,6 @@ def add_table(
         for c in df.columns
         if c not in dropdown_columns
     ]
-
-    table_title = str(table_name).replace("_", " ").capitalize()
-    table_button_name = "--".join([__name__, table_name]).replace(".", "--")
 
     layout = html.Div(
         [
@@ -131,3 +131,35 @@ def add_table(
             return rows
 
     return layout
+
+
+def add_table_for_selection(
+    df=None,
+    table_name="--".join([__name__, "table"]).replace(".", "--"),
+    page_size=20,
+):
+    output_layout = html.Div(
+        [
+            dash_table.DataTable(
+                id=table_name,
+                columns=[
+                    {"name": i, "id": i, "deletable": False, "selectable": True}
+                    for i in df.columns
+                ],
+                data=df.to_dict("records"),
+                editable=False,
+                filter_action="native",
+                sort_action="native",
+                sort_mode="multi",
+                column_selectable="single",
+                row_selectable="multi",
+                row_deletable=False,
+                selected_columns=[],
+                selected_rows=[],
+                page_action="native",
+                page_current=0,
+                page_size=page_size,
+            ),
+        ]
+    )
+    return output_layout

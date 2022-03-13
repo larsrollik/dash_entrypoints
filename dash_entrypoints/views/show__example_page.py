@@ -14,7 +14,9 @@ from dash_entrypoints.misc import get_callback_context
 def layout():
     """Example page layout. Shows a random number as proof of reload on every browser page refresh."""
 
-    id_hidden_div = "--".join([__name__, "hidden-div"]).replace(".", "")
+    id_hidden_div = (
+        "--".join([__name__, "hidden-div"]).replace(".", "-").replace("_", "-")
+    )
     id_button = "--".join([__name__, "submit-button"]).replace(".", "")
     layout = html.Div(
         [
@@ -28,7 +30,8 @@ def layout():
     def x(n_clicks, *args):
         if n_clicks is None:
             raise PreventUpdate
+
         print("CALLBACK:", {"n_clicks": n_clicks}, get_callback_context())
-        return
+        return [True]
 
     return layout
