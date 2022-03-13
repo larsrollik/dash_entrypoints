@@ -45,6 +45,7 @@ Example call
 ifentry --app-name TEST-NAME \
         --ip-address 192.168.100.10 \
         --views-module 'mypackage.page_subpackage' \
+        --assets-folder '/path/to/assets/folder' \
         --port 9050 \
         --debug
 ```
@@ -55,7 +56,7 @@ ifentry --app-name TEST-NAME \
 
 See for elements in `from interfaces_entrypoint import elements`
 
-##### `dash.DataTable`
+##### Standard layouts for `dash.DataTable`
 
 ###### With column dropdowns
 
@@ -74,6 +75,25 @@ from dash_entrypoints.elements.table_for_selection import add_table_for_selectio
 
 kwargs = {}
 table = add_table_for_selection(**kwargs)
+```
+
+##### Callback wrapper for inner layout
+
+This tool helps to minimise boilerplate code while dynamically combining inner layout elements
+with a button in the outer layout that triggers a callback function that can be connected
+to the inner elements via (state, variable) tuples.
+
+This function takes a part layout as list of dash layout elements, e.g. one or multiple tables,
+and a callback function plus the adequate states that feed data into the callback.
+The callback trigger is a button that gets added to the outer layout.
+
+The outer callback wrapper only hands down the input data to the given callback function for processing.
+(See examples `add__example_callback_wrapper_dropdown` and `add__example_callback_wrapper_selection`)
+
+```python
+from dash_entrypoints.elements.table_layout_wrapper import wrap_part_layout_for_callback
+
+
 ```
 
 ##### `box for buttons`

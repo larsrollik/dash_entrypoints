@@ -35,6 +35,9 @@ def wrap_part_layout_for_callback(
     if page_title is not None:
         layout_list.append(html.H3(page_title))
 
+    if not isinstance(part_layout, list):
+        part_layout = [part_layout]
+
     layout_list += part_layout
     layout_list += [
         html.Button("Submit!", id=button_name, className="me-1"),
