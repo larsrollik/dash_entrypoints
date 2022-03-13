@@ -18,8 +18,8 @@
 - [x] add options to change base layout from `NavbarSimple`. -> Added `Navbar`
 - [ ] update `readme` with info on dropdown vs selection table wrappers
 - [ ] update `readme` with examples for `kwargs` and `button box`
-- [ ] callback function wrapper into own page layout nesting? call wrapper to get final layout. within wrapper, use table function to generate inner table. wrapper provides submit button + wrapped callback. See outline in `dash_entrypoints/views/add__example_table_selection.py`
-
+- [x] callback function wrapper into own page layout nesting? call wrapper to get final layout. within wrapper, use table function to generate inner table. wrapper provides submit button + wrapped callback. See outline in `dash_entrypoints/views/add__example_table_selection.py`
+- [ ] document `table_layout_wrapper for callback`
 
 ### Entrypoint for multi-page apps
 

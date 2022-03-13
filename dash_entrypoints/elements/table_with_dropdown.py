@@ -129,5 +129,3 @@ def add_table_with_dropdown_columns(
             return rows
 
     return layout
-
-

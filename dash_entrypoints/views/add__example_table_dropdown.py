@@ -10,7 +10,9 @@ from dash.dependencies import Output
 from dash.dependencies import State
 from dash.exceptions import PreventUpdate
 
-from dash_entrypoints.elements.table_with_dropdown import add_table_with_dropdown_columns
+from dash_entrypoints.elements.table_with_dropdown import (
+    add_table_with_dropdown_columns,
+)
 from dash_entrypoints.elements.table_with_dropdown import make_dates_list
 from dash_entrypoints.elements.table_with_dropdown import make_times_list_24h
 
