@@ -38,11 +38,8 @@ def layout():
         "procedure_time_end": times,
     }
 
-    # LAYOUT
-    from uuid import uuid4
-
-    submit_btn = "submit--23r98y98feondlkn1oi"
-    dummy_div = "dummy--as245923ur923hr913"
+    submit_btn = "--".join([__name__, "submit-btn"]).replace(".", "")
+    dummy_div = "--".join([__name__, "hidden-div"]).replace(".", "")
 
     table_layout = add_table(
         table_name=table_1,

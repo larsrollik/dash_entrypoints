@@ -3,13 +3,11 @@ from dash import html
 from dash import Input
 from dash import Output
 
-from dash_entrypoints.misc import add_random_id
-
 
 def layout():
     """Front page"""
-    submit_btn = add_random_id("test_button_frontpage")
-    text_h5 = add_random_id("out_text")
+    submit_btn = "--".join([__name__, "submit-btn"]).replace(".", "")
+    text_h5 = "--".join([__name__, "out-text"]).replace(".", "")
     layout = html.Div(
         [
             html.H3(
