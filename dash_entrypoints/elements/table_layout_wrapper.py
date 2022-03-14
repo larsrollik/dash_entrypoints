@@ -14,7 +14,7 @@ def wrap_part_layout_for_callback(
     part_layout_post: list = None,
     page_title: str = None,
     callback_state_tuples: list = None,
-    callback_output_tuple: list = None,
+    callback_output_tuples: list = None,
     callback_fun: Callable = None,
     callback_kwargs: dict = None,
     button_label: str = "Submit",
@@ -25,7 +25,7 @@ def wrap_part_layout_for_callback(
     :param part_layout_post:
     :param page_title:
     :param callback_state_tuples:
-    :param callback_output_tuple:
+    :param callback_output_tuples:
     :param callback_fun:
     :param callback_kwargs:
     :param button_label:
@@ -71,10 +71,18 @@ def wrap_part_layout_for_callback(
     state_names = [state[1] for state in callback_state_tuples]
 
     # Callback: output
+    def is_list_or_tuple(obj=None):
+        return isinstance(obj, tuple) or isinstance(obj, list)
+
+    if is_list_or_tuple(callback_output_tuples) and isinstance(
+        callback_output_tuples[0], str
+    ):
+        callback_output_tuples = [callback_output_tuples]
+
     callback_output = (
-        Output(hidden_div_name, "children")
-        if callback_output_tuple is None
-        else Output(*callback_output_tuple)
+        [Output(hidden_div_name, "children")]
+        if callback_output_tuples is None
+        else [Output(*ctuple) for ctuple in callback_output_tuples]
     )
 
     @callback(
@@ -89,7 +97,7 @@ def wrap_part_layout_for_callback(
         state_data_tuples = dict(zip(key_tuples, state_args))
         callback_return_value = callback_fun(state_data_tuples, **callback_kwargs)
 
-        if callback_output_tuple is None:
+        if callback_output_tuples is None:
             return [None]
         else:
             return (
