@@ -26,7 +26,7 @@ def example_callback_fun(state_data_dict: dict = None, **kwargs):
 
     print("data", data_df)
     print("selected_rows", selected_rows)
-    print("selected_data", selected_rows.loc[selected_rows])
+    print("selected_data", data_df.loc[selected_rows])
     print("\n END \n")
 
 
