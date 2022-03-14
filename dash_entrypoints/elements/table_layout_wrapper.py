@@ -81,10 +81,10 @@ def wrap_part_layout_for_callback(
         if n_clicks is None:
             raise PreventUpdate
 
-        state_data_tuples = list(zip(state_source, state_names, state_args))
+        key_tuples = [(source, name) for source, name in zip(state_source, state_names)]
+        state_data_tuples = dict(zip(key_tuples, state_args))
         callback_return_value = callback_fun(state_data_tuples, **callback_kwargs)
-        # print("\n\n", "n_clicks", n_clicks)
-        # print("state_args", state_args)
+
         if callback_output_tuple is None:
             return [None]
         else:

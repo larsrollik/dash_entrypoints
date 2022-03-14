@@ -26,13 +26,13 @@ def layout():
     az_list = make_test_subject_ids()
     df = pd.DataFrame(az_list, columns=["subject_id"])
     table_name = "--".join([__name__, "table-name"]).replace(".", "")
-    part_layout = (
+    part_layout = [
         add_table_for_selection(
             df=df,
             table_name=table_name,
             page_size=20,
         ),
-    )
+    ]
 
     complete_layout = wrap_part_layout_for_callback(
         part_layout_pre=part_layout,
