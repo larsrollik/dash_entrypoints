@@ -11,14 +11,21 @@ def make_test_subject_ids():
     return az_list
 
 
-def example_callback_fun(state_data_tuples, **kwargs):
+def example_callback_fun(state_data_dict: dict = None, **kwargs):
     print("\n\n in example_callback_fun")
-    print("--> state_data_tuples", state_data_tuples)
+    print("--> state_data_dict", state_data_dict)
     print("--> kwargs", kwargs)
-    # print(
-    #     "--> data:",
-    #     pd.DataFrame(state_data_tuples[1][-1]).iloc[state_data_tuples[0][-1]],
-    # )
+
+    data_df = pd.DataFrame()
+    selected_rows = None
+    for key, data in state_data_dict.items():
+        if "data" == key[-1]:
+            data_df = pd.DataFrame(data)
+        elif "selected_rows" == key[-1]:
+            selected_rows = data
+
+    print("data", data_df)
+    print("selected_rows", selected_rows)
     print("\n END \n")
 
 

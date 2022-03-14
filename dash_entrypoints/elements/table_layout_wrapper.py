@@ -71,7 +71,11 @@ def wrap_part_layout_for_callback(
     state_names = [state[1] for state in callback_state_tuples]
 
     # Callback: output
-    callback_output = Output(hidden_div_name, "children") if callback_output_tuple is None else Output(*callback_output_tuple)
+    callback_output = (
+        Output(hidden_div_name, "children")
+        if callback_output_tuple is None
+        else Output(*callback_output_tuple)
+    )
 
     @callback(
         [callback_output],
@@ -88,6 +92,10 @@ def wrap_part_layout_for_callback(
         if callback_output_tuple is None:
             return [None]
         else:
-            return callback_return_value if isinstance(callback_return_value, list) else [callback_return_value]
+            return (
+                callback_return_value
+                if isinstance(callback_return_value, list)
+                else [callback_return_value]
+            )
 
     return complete_layout

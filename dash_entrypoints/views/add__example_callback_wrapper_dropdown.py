@@ -13,8 +13,6 @@ from dash_entrypoints.elements.table_with_dropdown import make_times_list_24h
 
 def example_callback_fun(state_data_dict, **kwargs):
     print("\n\n in example_callback_fun")
-    # print("--> state_data_tuples", state_data_tuples)
-    # print("--> kwargs", kwargs)
 
     yaml_items = [{key[0]: data} for key, data in state_data_dict.items()]
     yaml_str = yaml.dump(yaml_items)
