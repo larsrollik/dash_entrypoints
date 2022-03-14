@@ -15,10 +15,10 @@ def example_callback_fun(state_data_tuples, **kwargs):
     print("\n\n in example_callback_fun")
     print("--> state_data_tuples", state_data_tuples)
     print("--> kwargs", kwargs)
-    print(
-        "--> data:",
-        pd.DataFrame(state_data_tuples[1][-1]).iloc[state_data_tuples[0][-1]],
-    )
+    # print(
+    #     "--> data:",
+    #     pd.DataFrame(state_data_tuples[1][-1]).iloc[state_data_tuples[0][-1]],
+    # )
     print("\n END \n")
 
 
