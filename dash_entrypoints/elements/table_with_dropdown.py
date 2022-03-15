@@ -45,6 +45,7 @@ def add_table_with_dropdown_columns(
     dropdown_columns: list = None,
     table_expandable: bool = True,
     table_width: int = 90,
+    show_title=True,
     **kwargs,
 ):
     """Dash DataTable wrapper to provide dropdown columns along with free field columns. Tables are row extendable.
@@ -60,7 +61,10 @@ def add_table_with_dropdown_columns(
         df = df.append(pd.Series(), ignore_index=True)  # add one empty row
 
     table_title = str(table_name).replace("_", " ").capitalize()
-    table_button_name = "--".join([__name__, table_name]).replace(".", "--")
+    table_button_name = "--".join([__name__, table_name or "table-name"]).replace(
+        ".", "--"
+    )
+    table_title_heading = html.H3(table_title) if show_title else html.Div(hidden=True)
 
     # Full list of options as input ?
     if dropdown_options is not None:
@@ -90,8 +94,6 @@ def add_table_with_dropdown_columns(
         for c in df.columns
         if c not in dropdown_columns
     ]
-
-    table_title_heading = html.H3(table_title) if table_title else html.Div(hidden=True)
 
     layout = html.Div(
         [
