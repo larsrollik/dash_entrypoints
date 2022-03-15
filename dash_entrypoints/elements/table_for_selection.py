@@ -1,14 +1,15 @@
 import dash_html_components as html
 import dash_table
+import pandas as pd
 
 DEFAULT_TABLE_NAME = "--".join([__name__, "table"]).replace(".", "--")
 
 
 def add_table_for_selection(
-    df=None,
-    table_name=DEFAULT_TABLE_NAME,
-    single_select=False,
-    page_size=20,
+    df: pd.DataFrame = None,
+    table_name: str = None,
+    single_select: bool = False,
+    page_size: int = 20,
 ):
     output_layout = html.Div(
         [

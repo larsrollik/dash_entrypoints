@@ -91,11 +91,11 @@ def add_table_with_dropdown_columns(
         if c not in dropdown_columns
     ]
 
+    table_title_heading = html.H3(table_title) if table_title else html.Div(hidden=True)
+
     layout = html.Div(
         [
-            html.H3(
-                table_title,
-            ),
+            table_title_heading,
             dash_table.DataTable(
                 id=table_name,
                 data=df.to_dict("records"),
