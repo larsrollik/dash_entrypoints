@@ -61,8 +61,9 @@ def add_table_with_dropdown_columns(
         df = df.append(pd.Series(), ignore_index=True)  # add one empty row
 
     table_title = str(table_name).replace("_", " ").capitalize()
-    table_button_name = "--".join([__name__, table_name or "table-name"]).replace(
-        ".", "--"
+    table_name = table_name or "table-name"
+    table_button_name = (
+        "--".join([__name__, table_name]).replace(".", "--").replace(" ", "-")
     )
     table_title_heading = html.H3(table_title) if show_title else html.Div(hidden=True)
 
