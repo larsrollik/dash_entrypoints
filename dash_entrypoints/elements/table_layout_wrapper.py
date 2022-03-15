@@ -1,5 +1,6 @@
 from typing import Callable
 
+import dash_bootstrap_components as dbc
 import numpy as np
 from dash import callback
 from dash import html
@@ -58,7 +59,7 @@ def wrap_part_layout_for_callback(
 
     layout_list += part_layout_pre
     layout_list += [
-        html.Button(button_label, id=button_name, className="me-1"),
+        dbc.Button(button_label, id=button_name, className="me-1"),
         html.Div(id=hidden_div_name, hidden=True),
     ]
     layout_list += part_layout_post

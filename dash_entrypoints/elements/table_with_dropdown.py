@@ -1,5 +1,6 @@
 from datetime import datetime
 
+import dash_bootstrap_components as dbc
 import dash_html_components as html
 import dash_table
 import numpy as np
@@ -108,7 +109,7 @@ def add_table_with_dropdown_columns(
                 dropdown=dropdown_options,
             ),
             html.Div(id=f"{table_name}-container"),
-            html.Button("Add Row", id=table_button_name, n_clicks=0)
+            dbc.Button("Add Row", id=table_button_name, n_clicks=0)
             if table_expandable
             else html.Div(hidden=True),
         ],
