@@ -10,6 +10,10 @@ from dash import State
 from dash.exceptions import PreventUpdate
 
 
+def is_list_or_tuple(obj=None):
+    return isinstance(obj, tuple) or isinstance(obj, list)
+
+
 def wrap_part_layout_for_callback(
     part_layout_pre: list = None,
     part_layout_post: list = None,
@@ -72,9 +76,6 @@ def wrap_part_layout_for_callback(
     state_names = [state[1] for state in callback_state_tuples]
 
     # Callback: output
-    def is_list_or_tuple(obj=None):
-        return isinstance(obj, tuple) or isinstance(obj, list)
-
     if is_list_or_tuple(callback_output_tuples) and isinstance(
         callback_output_tuples[0], str
     ):

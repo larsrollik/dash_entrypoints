@@ -11,6 +11,9 @@ from dash import Output
 from dash import State
 
 
+DEFAULT_TABLE_NAME = "--".join([__name__, "table"]).replace(".", "--")
+
+
 def make_times_list_24h(step_hours=1, step_minutes=5):
     """Makes list of time combinations of hours/minutes in given spacing. For dropdown table columns.
 
@@ -40,7 +43,7 @@ def make_dates_list(years=None, months=np.arange(1, 13, 1), days=np.arange(1, 32
 
 
 def add_table_with_dropdown_columns(
-    table_name: str = None,
+    table_name: str = DEFAULT_TABLE_NAME,
     df: pd.DataFrame = None,
     dropdown_options: dict = None,
     dropdown_columns: list = None,
@@ -61,12 +64,14 @@ def add_table_with_dropdown_columns(
     if df.empty:
         df = df.append(pd.Series(), ignore_index=True)  # add one empty row
 
-    table_title = str(table_name).replace("_", " ").capitalize()
-    table_name = table_name or "table-name"
     table_button_name = (
-        "--".join([__name__, table_name]).replace(".", "--").replace(" ", "-")
+        "--".join([table_name, "button"]).replace(".", "--").replace(" ", "-")
     )
-    table_title_heading = html.H3(table_title) if show_title else html.Div(hidden=True)
+    table_title_heading = (
+        html.H3(str(table_name).replace("_", " ").capitalize())
+        if show_title
+        else html.Div(hidden=True)
+    )
 
     # Full list of options as input ?
     if dropdown_options is not None:
