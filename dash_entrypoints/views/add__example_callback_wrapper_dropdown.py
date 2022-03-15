@@ -70,11 +70,13 @@ def layout():
             df=df_for_table_1,
             dropdown_options=dropdown_options_procedures_1,
             table_expandable=False,
+            show_title=True,
         ),
         add_table_with_dropdown_columns(
             table_name=table_2,
             df=df_for_table_2,
             dropdown_options=dropdown_options_procedures_2,
+            show_title=True,
         ),
     ]
 

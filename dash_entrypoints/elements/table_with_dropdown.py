@@ -48,8 +48,8 @@ def add_table_with_dropdown_columns(
     dropdown_options: dict = None,
     dropdown_columns: list = None,
     table_expandable: bool = True,
-    table_width: int = 90,
-    show_title=True,
+    table_width: int = 100,
+    show_title=False,
     **kwargs,
 ):
     """Dash DataTable wrapper to provide dropdown columns along with free field columns. Tables are row extendable.
@@ -119,7 +119,7 @@ def add_table_with_dropdown_columns(
             else html.Div(hidden=True),
         ],
         style={
-            "padding": "10px",
+            "padding": "0px",
             "width": "90%" if table_width is None else f"{table_width}%",
         },
     )

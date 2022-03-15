@@ -48,6 +48,7 @@ def layout():
         df=df_for_table,
         dropdown_options=dropdown_options_procedures,
         table_expandable=False,
+        show_title=True,
     )
     layout = html.Div(
         [
