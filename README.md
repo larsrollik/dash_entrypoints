@@ -77,6 +77,16 @@ kwargs = {}
 table = add_table_for_selection(**kwargs)
 ```
 
+###### With editable columns (& typecasting for entered edited values for homogenous data in callbacks)
+
+```python
+
+from dash_entrypoints.elements.table_for_editing import add_table_with_editable_columns
+
+kwargs = {}
+table = add_table_with_editable_columns(**kwargs)
+```
+
 ##### Callback wrapper for inner layout
 
 This tool helps to minimise boilerplate code while dynamically combining inner layout elements
