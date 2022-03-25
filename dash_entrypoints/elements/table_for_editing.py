@@ -39,8 +39,13 @@ def add_table_with_editable_columns(
     :param style_data_conditional:
     :return:
     """
-    assert isinstance(columns_editable, list)
-    assert isinstance(column_types, dict)
+    assert isinstance(columns_editable, list) or columns_editable is None
+    assert isinstance(column_types, dict) or column_types is None
+
+    if columns_editable is None:
+        columns_editable = []
+    if column_types is None:
+        column_types = {}
 
     columns = [
         {
