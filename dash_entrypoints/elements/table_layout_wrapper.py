@@ -24,7 +24,7 @@ def wrap_part_layout_for_callback(
     callback_kwargs: dict = None,
     button_label: str = "Submit",
 ):
-    """
+    """Wrap a part layout for callback
 
     :param part_layout_pre:
     :param part_layout_post:
@@ -99,13 +99,19 @@ def wrap_part_layout_for_callback(
         state_data_tuples = dict(zip(key_tuples, state_args))
         callback_return_value = callback_fun(state_data_tuples, **callback_kwargs)
 
-        if callback_output_tuples is None:
-            return [None]
-        else:
-            return (
-                callback_return_value
-                if isinstance(callback_return_value, list)
-                else [callback_return_value]
-            )
+        # Ensure correct nesting of output for dash.schema
+        # - is list
+        if not isinstance(callback_return_value, list) and not isinstance(
+            callback_return_value, tuple
+        ):
+            callback_return_value = [callback_return_value]
+
+        # - is nested list [[return-value]]
+        if not isinstance(callback_return_value[0], list) and not isinstance(
+            callback_return_value[0], tuple
+        ):
+            callback_return_value = [callback_return_value]
+
+        return callback_return_value
 
     return complete_layout

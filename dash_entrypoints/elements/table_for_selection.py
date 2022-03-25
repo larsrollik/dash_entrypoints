@@ -11,6 +11,14 @@ def add_table_for_selection(
     single_select: bool = False,
     page_size: int = 20,
 ):
+    """Add a table for callbacks based on row selection
+
+    :param df:
+    :param table_name:
+    :param single_select:
+    :param page_size:
+    :return:
+    """
     output_layout = html.Div(
         [
             dash_table.DataTable(
