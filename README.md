@@ -12,17 +12,7 @@
 Boilerplate for : multi-page apps, layout callbacks, and specific purpose table and popup views.
 ---
 
-
-### TODO
-
-- [x] document entrypoint for CLI and python
-- [x] add elements like `DataTable` wrapper
-- [x] add options to change base layout from `NavbarSimple`. -> Added `Navbar`
-- [x] update `readme` with info on dropdown vs selection table wrappers
-- [x] update `readme` with examples for `kwargs`
-- [x] callback function wrapper into own page layout nesting? call wrapper to get final layout. within wrapper, use table function to generate inner table. wrapper provides submit button + wrapped callback. See outline in `dash_entrypoints/views/add__example_table_selection.py`
-- [x] document `table_layout_wrapper for callback`
-- [ ] add `element` for button box + pre-assigned callbacks (functions as args). Resolve button via `callback_context`, then distribute to callback sub-function.
+See features & entrypoints listed below.
 
 ### Entrypoint for multi-page apps
 
@@ -135,6 +125,18 @@ from dash_entrypoints.elements.table_layout_wrapper import wrap_part_layout_for_
 ```python
 # TODO
 ```
+
+
+### TODO
+
+- [x] document entrypoint for CLI and python
+- [x] add elements like `DataTable` wrapper
+- [x] add options to change base layout from `NavbarSimple`. -> Added `Navbar`
+- [x] update `readme` with info on dropdown vs selection table wrappers
+- [x] update `readme` with examples for `kwargs`
+- [x] callback function wrapper into own page layout nesting? call wrapper to get final layout. within wrapper, use table function to generate inner table. wrapper provides submit button + wrapped callback. See outline in `dash_entrypoints/views/add__example_table_selection.py`
+- [x] document `table_layout_wrapper for callback`
+- [ ] add `element` for button box + pre-assigned callbacks (functions as args). Resolve button via `callback_context`, then distribute to callback sub-function.
 
 
 ## Author & License
