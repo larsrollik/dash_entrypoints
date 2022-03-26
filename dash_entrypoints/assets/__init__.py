@@ -1,8 +1,8 @@
 def get_standard_component_id(__name=None, name="PLACEHOLDER"):
     """Make standardised component IDs for Dash layout components"""
     new_id = "--".join([__name, name])
-    for source, target in [(".", ""), (" ", "-"), ("_", "-")]:
-        new_id.replace(source, target)
+    for source, target in [(".", "-"), (" ", "-"), ("_", "-")]:
+        new_id = new_id.replace(source, target)
     return new_id
 
 
