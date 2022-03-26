@@ -87,6 +87,27 @@ kwargs = {}
 table = add_table_with_editable_columns(**kwargs)
 ```
 
+##### Popup (dbc.Modal) for information, e.g. as callback confirmation
+```python
+
+from dash_entrypoints.elements.popup_for_information import add_popup_for_information
+
+popup_list = [
+        {
+            "name": "success",
+            "title": "Successfully inserted new entry.",
+            "text": None,
+            "close_button": False,
+            "is_open": False,
+        },
+        {"name": "error", "title": "Error during insert", "close_button": True},
+    ]
+popup_layout, popup_list = add_popup_for_information(popup_list=popup_list)
+
+# Add to main layout...
+# Note: `popup_layout` is a list of popup layout objects
+```
+
 ##### Callback wrapper for inner layout
 
 This tool helps to minimise boilerplate code while dynamically combining inner layout elements
