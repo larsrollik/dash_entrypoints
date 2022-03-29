@@ -13,7 +13,7 @@ with open(path.join(this_directory, "LICENSE")) as f:
 
 setup(
     name="dash_entrypoints",
-    version="0.2.0",
+    version="0.2.1.dev0",
     description="Dash entrypoints: Wrapper for dash/dash-labs multi-page app and specific layout elements.",
     long_description=long_description,
     long_description_content_type="text/markdown",
