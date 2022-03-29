@@ -1,6 +1,10 @@
 import argparse
+import json
 import logging
 import sys
+from pathlib import Path
+
+import yaml
 
 from dash_entrypoints.misc import get_local_ip_address
 from dash_entrypoints.multi_page import DEFAULT_APP_NAME
@@ -45,6 +49,14 @@ def make_parser():
         help="Folder with stylesheet, script, image assets",
     )
     parser.add_argument(
+        "-f",
+        "--app-data-file",
+        type=str,
+        dest="app_data_file",
+        default="",
+        help="Filepath to YAML or JSON file that contains metadata that should be available to all pages in the app",
+    )
+    parser.add_argument(
         "--port",
         "-p",
         dest="port",
@@ -61,6 +73,28 @@ def make_parser():
         help="Debug mode",
     )
     return parser
+
+
+def evaluate_args_dict(args_dict: dict = None):
+    """Evaluation routines to get derivate variables for `entrypoint`"""
+    # app_data_file -> app_data
+    app_data_file = Path(args_dict.get("app_data_file"))
+    args_dict["app_data"] = {}
+    if app_data_file.exists():
+        if app_data_file.name.lower().endswith(".json"):
+            with open(app_data_file, "r") as f:
+                args_dict["app_data"] = json.loads(f.read())
+
+        elif app_data_file.name.lower().endswith(".yaml"):
+            with open(app_data_file, "r") as f:
+                args_dict["app_data"] = yaml.full_load(f)
+
+        else:
+            logging.info(f"Unrecognized app_data_file: '{app_data_file.as_posix()}'")
+
+    # ! add other evaluation snippets here
+
+    return args_dict
 
 
 def run_cli(*args):
@@ -88,7 +122,10 @@ def run_cli(*args):
     if "exit_flag" in args_dict.keys():
         return
 
-    # Call module
+    # Evaluate args
+    args_dict = evaluate_args_dict(args_dict=args_dict)
+
+    # Run the main entrypoint for a dash server instance
     run_entrypoint(**args_dict)
 
     logging.debug("EXITING CLI.")

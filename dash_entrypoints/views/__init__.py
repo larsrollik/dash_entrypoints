@@ -1,3 +1,4 @@
+import dash
 from dash import callback
 from dash import html
 from dash import Input
@@ -14,6 +15,10 @@ def layout():
             html.H3(
                 "Empty front page. Choose one of the linked pages in the navbar above."
             ),
+            html.H5(
+                "Clicking the button also demonstrates the `dash.app_data` attribute, "
+                "which gets printed to the console in the callback."
+            ),
             html.Button("!", id=submit_btn),
             html.Label("Clicked.", id=text_h5, hidden=True),
         ]
@@ -25,6 +30,7 @@ def layout():
             raise PreventUpdate
 
         print(n_clicks)
+        print("APP DATA", getattr(dash, "app_data"))
         return [False]
 
     return layout

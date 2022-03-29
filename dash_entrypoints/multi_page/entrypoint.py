@@ -96,9 +96,11 @@ def get_app(
     local_stylesheets = sorted(Path(assets_folder).glob("*.css"))
     local_scripts = sorted(Path(assets_folder).glob("*.js"))
 
+    from dash_entrypoints.plugins import minimalplugin
+
     app = dash.Dash(
         name=app_name,
-        plugins=[dl.plugins.pages],
+        plugins=[dl.plugins.pages, minimalplugin],
         assets_folder=assets_folder,
         external_stylesheets=local_stylesheets + [dbc.themes.BOOTSTRAP],
         external_scripts=local_scripts,
@@ -180,23 +182,25 @@ def add_base_layout(app=None, app_name=None, **kwargs):
 
 
 def run_entrypoint(
-    app_name=DEFAULT_APP_NAME,
-    ip_address=get_local_ip_address(),
-    views_module=DEFAULT_VIEWS_MODULE,
-    assets_folder=DEFAULT_ASSETS_FOLDER,
-    port=9050,
-    debug=False,
+    app_name: str = DEFAULT_APP_NAME,
+    ip_address: str = get_local_ip_address(),
+    views_module: str = DEFAULT_VIEWS_MODULE,
+    assets_folder: str = DEFAULT_ASSETS_FOLDER,
+    app_data: dict = None,
+    port: int = 9050,
+    debug: bool = False,
     **kwargs,
 ):
     """Entrypoint for dash multi-page app wrapper.
 
-    :param app_name:
-    :param ip_address:
-    :param views_module:
-    :param assets_folder:
-    :param port:
-    :param debug:
-    :param kwargs:
+    :param app_name: string of app_name
+    :param ip_address: string of IP address, e.g. 192.168.100.1
+    :param views_module: string for python module that contain files for dash page layouts
+    :param assets_folder: folder that contains .css and .js files
+    :param app_data: dict of data to be distributed via `dash.app_data` to all pages
+    :param port: int for port number
+    :param debug: bool for debug mode
+    :param kwargs: other attributes that will be added to app_data
     :return:
     """
     app = get_app(
@@ -208,6 +212,11 @@ def run_entrypoint(
 
     if not debug:
         app.config.suppress_callback_exceptions = True
+
+    # Add app data do dash module import to be used as virtually global data.
+    if app_data is not None:
+        kwargs.update(app_data)
+    dash.app_data = kwargs
 
     app.run_server(
         host=ip_address,
