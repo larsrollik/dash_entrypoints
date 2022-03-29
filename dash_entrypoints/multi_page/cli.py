@@ -1,12 +1,10 @@
 import argparse
-import json
 import logging
 import sys
 from pathlib import Path
 
-import yaml
-
 from dash_entrypoints.misc import get_local_ip_address
+from dash_entrypoints.misc import load_app_data
 from dash_entrypoints.multi_page import DEFAULT_APP_NAME
 from dash_entrypoints.multi_page import DEFAULT_ASSETS_FOLDER
 from dash_entrypoints.multi_page import DEFAULT_VIEWS_MODULE
@@ -77,22 +75,9 @@ def make_parser():
 
 def evaluate_args_dict(args_dict: dict = None):
     """Evaluation routines to get derivate variables for `entrypoint`"""
-    # app_data_file -> app_data
-    app_data_file = Path(args_dict.get("app_data_file"))
-    args_dict["app_data"] = {}
-    if app_data_file.exists():
-        if app_data_file.name.lower().endswith(".json"):
-            with open(app_data_file, "r") as f:
-                args_dict["app_data"] = json.loads(f.read())
+    args_dict["app_data"] = load_app_data(file=args_dict.get("app_data_file"))
 
-        elif app_data_file.name.lower().endswith(".yaml"):
-            with open(app_data_file, "r") as f:
-                args_dict["app_data"] = yaml.full_load(f)
-
-        else:
-            logging.info(f"Unrecognized app_data_file: '{app_data_file.as_posix()}'")
-
-    # ! add other evaluation snippets here
+    # ! add other evaluation methods here
 
     return args_dict
 
