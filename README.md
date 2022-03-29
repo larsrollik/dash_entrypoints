@@ -14,6 +14,8 @@ Boilerplate for : multi-page apps, layout callbacks, and specific purpose table 
 
 See features & entrypoints listed below.
 
+
+
 ### Entrypoint for multi-page apps
 
 ##### Python
@@ -23,6 +25,18 @@ from dash_entrypoints import run_entrypoint
 
 kwargs = {}
 run_entrypoint(**kwargs)
+```
+
+
+###### Load `app_data` from file for use with `run_entrypoint` (expects `dict`, not a filepath)
+
+```python
+from dash_entrypoints.misc import load_app_data
+from dash_entrypoints import run_entrypoint
+
+app_data_file = "/some/file/path"
+app_data = load_app_data(file=app_data_file)
+run_entrypoint(app_data=app_data)
 ```
 
 
