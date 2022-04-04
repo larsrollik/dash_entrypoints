@@ -2,14 +2,19 @@
 -*- coding: utf-8 -*-
 
  Author: Lars B. Rollik <L.B.Rollik@protonmail.com>
- License:
+ License: BSD 3-Clause
 -->
+<!-- Banners -->
+[![DOI](https://zenodo.org/badge/DOI/--DOI--.svg)](https://doi.org/--DOI--)
+[![Website](https://img.shields.io/website?up_message=online&url=https%3A%2F%2Fgithub.com/larsrollik/dash_entrypoints)](https://github.com/larsrollik/dash_entrypoints)
+[![PyPI](https://img.shields.io/pypi/v/dash_entrypoints.svg)](https://pypi.org/project/dash_entrypoints)
+[![Wheel](https://img.shields.io/pypi/wheel/dash_entrypoints.svg)](https://pypi.org/project/dash_entrypoints)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/python/black)
-
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+[![Contributions](https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg)](https://github.com/larsrollik/dash_entrypoints/pulls)
 
 # Dash entrypoints
-
-Boilerplate for : multi-page apps, layout callbacks, and specific purpose table and popup views.
+CLI & wrapper for multi-page apps, layout callbacks, and more.
 ---
 
 See features & entrypoints listed below.
@@ -118,7 +123,7 @@ popup_layout, popup_list = add_popup_for_information(popup_list=popup_list)
 ##### Box for buttons
 
 ```python
-# TODO
+# TODO, see Issue #3
 ```
 
 #### Callback wrapper for inner layout
@@ -179,17 +184,32 @@ print(dash.minimal_plugin_attribute)
 
 
 
-### TODO
+## Contributing
 
-- [x] document entrypoint for CLI and python
-- [x] add elements like `DataTable` wrapper
-- [x] add options to change base layout from `NavbarSimple`. -> Added `Navbar`
-- [x] update `readme` with info on dropdown vs selection table wrappers
-- [x] update `readme` with examples for `kwargs`
-- [x] callback function wrapper into own page layout nesting? call wrapper to get final layout. within wrapper, use table function to generate inner table. wrapper provides submit button + wrapped callback. See outline in `dash_entrypoints/views/add__example_table_selection.py`
-- [x] document `table_layout_wrapper for callback`
-- [ ] add `element` for button box + pre-assigned callbacks (functions as args). Resolve button via `callback_context`, then distribute to callback sub-function.
-- [ ] consider `prevent_initial_call` due to long load wait for some derivate modules. [see here](https://dash.plotly.com/advanced-callbacks#prevent-callbacks-from-being-executed-on-initial-load)
+Contributions are welcome! Please open
+[issues](https://github.com/larsrollik/dash_entrypoints/issues) or
+[pull requests](https://github.com/larsrollik/dash_entrypoints/pulls) or
+[get in touch](https://github.com/larsrollik).
 
-## Author & License
- **[Copyright 2022. Lars Rollik. All rights reserved. - See license](LICENSE)**
+
+
+## Citation
+
+> Rollik, Lars B. (2022). Dash entrypoints: . doi: [--DOI--](https://doi.org/--DOI--).
+
+**BibTeX**
+```BibTeX
+@misc{rollik2021rpi,
+    author       = {Lars B. Rollik},
+    title        = {{Dash entrypoints: }},
+    year         = {2022},
+    month        = apr,
+    publisher    = {Zenodo},
+    url          = {https://doi.org/--DOI--},
+    doi          = {--DOI--},
+  }
+```
+
+
+## License
+This software is released under the **[BSD 3-Clause License](https://github.com/larsrollik/dash_entrypoints/blob/master/LICENSE)**

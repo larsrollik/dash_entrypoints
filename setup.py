@@ -18,9 +18,9 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     install_requires=[
-        "dash",  # dash-core-components-1.12.1 dash-html-components-1.1.1 dash-renderer-1.8.2 dash-table-4.10.1
+        "dash",
         "dash_bootstrap_components",
-        "dash_labs==1.0.2",  # for multi-page feature. at least version 1.0.2
+        "dash_labs==1.0.2",  # for multi-page feature at least version 1.0.2
         "rich",
     ],
     extras_require={

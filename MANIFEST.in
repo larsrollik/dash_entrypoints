@@ -3,3 +3,4 @@ prune data
 prune resources
 prune .github
 recursive-include dash_entrypoints *.css
+recursive-include dash_entrypoints *.js
