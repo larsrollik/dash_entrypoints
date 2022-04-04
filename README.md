@@ -5,7 +5,8 @@
  License: BSD 3-Clause
 -->
 <!-- Banners -->
-[![DOI](https://zenodo.org/badge/DOI/--DOI--.svg)](https://doi.org/--DOI--)
+
+[![DOI](https://zenodo.org/badge/467883785.svg)](https://zenodo.org/badge/latestdoi/467883785)
 [![Website](https://img.shields.io/website?up_message=online&url=https%3A%2F%2Fgithub.com/larsrollik/dash_entrypoints)](https://github.com/larsrollik/dash_entrypoints)
 [![PyPI](https://img.shields.io/pypi/v/dash_entrypoints.svg)](https://pypi.org/project/dash_entrypoints)
 [![Wheel](https://img.shields.io/pypi/wheel/dash_entrypoints.svg)](https://pypi.org/project/dash_entrypoints)
@@ -195,7 +196,7 @@ Contributions are welcome! Please open
 
 ## Citation
 
-> Rollik, Lars B. (2022). Dash entrypoints: . doi: [--DOI--](https://doi.org/--DOI--).
+> Rollik, Lars B. (2022). Dash entrypoints: . doi: [10.5281/zenodo.6412527](https://doi.org/10.5281/zenodo.6412527).
 
 **BibTeX**
 ```BibTeX
@@ -205,8 +206,8 @@ Contributions are welcome! Please open
     year         = {2022},
     month        = apr,
     publisher    = {Zenodo},
-    url          = {https://doi.org/--DOI--},
-    doi          = {--DOI--},
+    url          = {https://doi.org/10.5281/zenodo.6412527},
+    doi          = {10.5281/zenodo.6412527},
   }
 ```
 
