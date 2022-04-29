@@ -3,7 +3,9 @@ from datetime import datetime
 import pandas as pd
 import yaml
 
-from dash_entrypoints.elements.table_layout_wrapper import wrap_part_layout_for_callback
+from dash_entrypoints.elements.table_layout_wrapper import (
+    wrap_part_layout_for_callback,
+)
 from dash_entrypoints.elements.table_with_dropdown import (
     add_table_with_dropdown_columns,
 )
@@ -18,7 +20,9 @@ def example_callback_fun(state_data_dict, **kwargs):
     yaml_str = yaml.dump(yaml_items)
     print("\n", yaml_str, "\n")
 
-    with open(kwargs.get("save_path", "/tmp/example_table_content.yaml"), "w") as f:
+    with open(
+        kwargs.get("save_path", "/tmp/example_table_content.yaml"), "w"
+    ) as f:
         f.write(yaml.dump(yaml_str))
         print(f"\n{f.name}\n")
 
@@ -35,7 +39,9 @@ def layout():
         {
             "subject_id": subject_ids,
             "procedure_date": dt.date().strftime("%Y-%m-%d"),
-            "procedure_time_start": pd.to_datetime(dt).round("5min").strftime("%H:%M"),
+            "procedure_time_start": pd.to_datetime(dt)
+            .round("5min")
+            .strftime("%H:%M"),
         }
     )
     dropdown_options_procedures_1 = {
@@ -54,7 +60,9 @@ def layout():
         {
             "subject_id": subject_ids,
             "procedure_date": dt.date().strftime("%Y-%m-%d"),
-            "procedure_time_start": pd.to_datetime(dt).round("5min").strftime("%H:%M"),
+            "procedure_time_start": pd.to_datetime(dt)
+            .round("5min")
+            .strftime("%H:%M"),
         }
     )
     dropdown_options_procedures_2 = {
@@ -90,7 +98,9 @@ def layout():
         page_title="TEST-wrap-dropdown",
         callback_state_tuples=callback_state_tuples,
         callback_fun=example_callback_fun,
-        callback_kwargs={"save_path": "/tmp/example_callback_wrapper_basepath"},
+        callback_kwargs={
+            "save_path": "/tmp/example_callback_wrapper_basepath"
+        },
     )
 
     return complete_layout

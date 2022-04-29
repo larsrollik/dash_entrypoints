@@ -26,7 +26,11 @@ def layout():
                 id="table-dropdown",
                 data=df.to_dict("records"),
                 columns=[
-                    {"id": "climate", "name": "climate", "presentation": "dropdown"},
+                    {
+                        "id": "climate",
+                        "name": "climate",
+                        "presentation": "dropdown",
+                    },
                     {"id": "temperature", "name": "temperature"},
                     {"id": "city", "name": "city", "presentation": "dropdown"},
                 ],
@@ -34,12 +38,14 @@ def layout():
                 dropdown={
                     "climate": {
                         "options": [
-                            {"label": i, "value": i} for i in df["climate"].unique()
+                            {"label": i, "value": i}
+                            for i in df["climate"].unique()
                         ]
                     },
                     "city": {
                         "options": [
-                            {"label": i, "value": i} for i in df["city"].unique()
+                            {"label": i, "value": i}
+                            for i in df["city"].unique()
                         ]
                     },
                 },

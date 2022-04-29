@@ -31,20 +31,27 @@ def add_popup_for_information(
     assert isinstance(popup_list, list) or isinstance(popup_list, tuple)
     return_layout = []
     for popup in popup_list:
-        popup_id = get_standard_component_id(__name__, popup.get("name", placeholder))
+        popup_id = get_standard_component_id(
+            __name__, popup.get("name", placeholder)
+        )
         close_button_id = get_standard_component_id(
             __name__, "--".join([popup.get("name"), "close"])
         )
         popup.update({"id": popup_id})
         popup_layout = dbc.Modal(
             [
-                dbc.ModalHeader(dbc.ModalTitle(popup.get("title", placeholder))),
+                dbc.ModalHeader(
+                    dbc.ModalTitle(popup.get("title", placeholder))
+                ),
                 dbc.ModalBody(popup.get("text"))
                 if popup.get("text", None) is not None
                 else html.Div(hidden=True),
                 dbc.ModalFooter(
                     dbc.Button(
-                        "Close", id=close_button_id, className="ms-auto", n_clicks=0
+                        "Close",
+                        id=close_button_id,
+                        className="ms-auto",
+                        n_clicks=0,
                     )
                 )
                 if popup.get("close_button")

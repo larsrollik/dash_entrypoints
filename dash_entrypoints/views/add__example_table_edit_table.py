@@ -6,7 +6,9 @@ from dash import Output
 from dash import State
 from dash.exceptions import PreventUpdate
 
-from dash_entrypoints.elements.table_for_editing import add_table_with_editable_columns
+from dash_entrypoints.elements.table_for_editing import (
+    add_table_with_editable_columns,
+)
 
 
 def make_test_subject_ids():

@@ -30,7 +30,9 @@ def layout():
         {
             "subject_id": subject_ids,
             "procedure_date": dt.date().strftime("%Y-%m-%d"),
-            "procedure_time_start": pd.to_datetime(dt).round("5min").strftime("%H:%M"),
+            "procedure_time_start": pd.to_datetime(dt)
+            .round("5min")
+            .strftime("%H:%M"),
         }
     )
     dropdown_options_procedures = {
