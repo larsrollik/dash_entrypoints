@@ -214,3 +214,6 @@ Contributions are welcome! Please open
 
 ## License
 This software is released under the **[BSD 3-Clause License](https://github.com/larsrollik/dash_entrypoints/blob/master/LICENSE)**
+
+---
+Version: "0.2.3"
