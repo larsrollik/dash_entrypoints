@@ -19,14 +19,18 @@ from dash_entrypoints.multi_page import DEFAULT_VIEWS_MODULE
 def import_layout_function(layout_file=None, views_imported=None):
     layout_name = layout_file.name.replace(".py", "")
     layout_path = layout_name.replace("__", "/")
-    page = importlib.import_module(f"{views_imported.__package__}.{layout_name}")
+    page = importlib.import_module(
+        f"{views_imported.__package__}.{layout_name}"
+    )
     if hasattr(page, "layout"):
         return page.layout, layout_name, layout_path
     else:
         return None, None, None
 
 
-def _do_register_module_as_page(app_name=None, layout_file=None, views_imported=None):
+def _do_register_module_as_page(
+    app_name=None, layout_file=None, views_imported=None
+):
     page_layout, layout_name, layout_path = import_layout_function(
         layout_file=layout_file, views_imported=views_imported
     )
@@ -42,7 +46,9 @@ def _do_register_module_as_page(app_name=None, layout_file=None, views_imported=
 
 
 def register_page_layouts(
-    app_name=DEFAULT_APP_NAME, views_module=None, register_blank_frontpage=False
+    app_name=DEFAULT_APP_NAME,
+    views_module=None,
+    register_blank_frontpage=False,
 ):
     """Register the page layouts in the subfolders of the views_module.
 
@@ -55,12 +61,16 @@ def register_page_layouts(
     views_imported = importlib.import_module(views_module)
 
     layout_paths = sorted(Path(views_imported.__path__[0]).rglob("*.py"))
-    layout_files = [lay for lay in layout_paths if not lay.name.startswith("__")]
+    layout_files = [
+        lay for lay in layout_paths if not lay.name.startswith("__")
+    ]
 
     def empty_layout():
         return html.Div()
 
-    frontpage_file = [lay for lay in layout_paths if lay.name.startswith("__")][0]
+    frontpage_file = [
+        lay for lay in layout_paths if lay.name.startswith("__")
+    ][0]
     front_page_layout, layout_name, layout_path = import_layout_function(
         layout_file=frontpage_file, views_imported=views_imported
     )
@@ -130,7 +140,9 @@ def add_base_layout(app=None, app_name=None, **kwargs):
                     dbc.Row(
                         [
                             # dbc.Col(html.Img(src=PLOTLY_LOGO, height="30px")),  # TODO: add app_name as image
-                            dbc.Col(dbc.NavbarBrand(app_name, className="ms-2")),
+                            dbc.Col(
+                                dbc.NavbarBrand(app_name, className="ms-2")
+                            ),
                         ],
                         align="center",
                         className="g-0",
@@ -204,7 +216,9 @@ def run_entrypoint(
     :return:
     """
     app = get_app(
-        app_name=app_name, views_module=views_module, assets_folder=assets_folder
+        app_name=app_name,
+        views_module=views_module,
+        assets_folder=assets_folder,
     )
     app = add_base_layout(
         app=app, app_name=app_name, ip_address=ip_address, port=port, **kwargs

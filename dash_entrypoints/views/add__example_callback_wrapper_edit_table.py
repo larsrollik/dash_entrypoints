@@ -1,8 +1,12 @@
 import pandas as pd
 from dash import html
 
-from dash_entrypoints.elements.table_for_editing import add_table_with_editable_columns
-from dash_entrypoints.elements.table_layout_wrapper import wrap_part_layout_for_callback
+from dash_entrypoints.elements.table_for_editing import (
+    add_table_with_editable_columns,
+)
+from dash_entrypoints.elements.table_layout_wrapper import (
+    wrap_part_layout_for_callback,
+)
 
 
 def make_test_subject_ids():

@@ -71,7 +71,9 @@ def wrap_part_layout_for_callback(
     complete_layout = html.Div(layout_list)
 
     # Callback: state input
-    input_states = [State(state, var) for (state, var) in callback_state_tuples]
+    input_states = [
+        State(state, var) for (state, var) in callback_state_tuples
+    ]
     state_source = [state[0] for state in callback_state_tuples]
     state_names = [state[1] for state in callback_state_tuples]
 
@@ -95,9 +97,13 @@ def wrap_part_layout_for_callback(
         if n_clicks is None:
             raise PreventUpdate
 
-        key_tuples = [(source, name) for source, name in zip(state_source, state_names)]
+        key_tuples = [
+            (source, name) for source, name in zip(state_source, state_names)
+        ]
         state_data_tuples = dict(zip(key_tuples, state_args))
-        callback_return_value = callback_fun(state_data_tuples, **callback_kwargs)
+        callback_return_value = callback_fun(
+            state_data_tuples, **callback_kwargs
+        )
 
         # Ensure correct nesting of output for dash.schema
         # - is list
