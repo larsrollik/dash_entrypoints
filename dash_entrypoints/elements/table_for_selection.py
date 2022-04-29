@@ -24,7 +24,12 @@ def add_table_for_selection(
             dash_table.DataTable(
                 id=table_name,
                 columns=[
-                    {"name": i, "id": i, "deletable": False, "selectable": True}
+                    {
+                        "name": i,
+                        "id": i,
+                        "deletable": False,
+                        "selectable": True,
+                    }
                     for i in df.columns
                 ],
                 data=df.to_dict("records"),

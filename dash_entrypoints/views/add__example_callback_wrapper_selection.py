@@ -1,7 +1,11 @@
 import pandas as pd
 
-from dash_entrypoints.elements.table_for_selection import add_table_for_selection
-from dash_entrypoints.elements.table_layout_wrapper import wrap_part_layout_for_callback
+from dash_entrypoints.elements.table_for_selection import (
+    add_table_for_selection,
+)
+from dash_entrypoints.elements.table_layout_wrapper import (
+    wrap_part_layout_for_callback,
+)
 
 
 def make_test_subject_ids():
@@ -45,7 +49,10 @@ def layout():
     complete_layout = wrap_part_layout_for_callback(
         part_layout_pre=part_layout,
         page_title="TEST-wrap-selection",
-        callback_state_tuples=[(table_name, "selected_rows"), (table_name, "data")],
+        callback_state_tuples=[
+            (table_name, "selected_rows"),
+            (table_name, "data"),
+        ],
         callback_fun=example_callback_fun,
         callback_kwargs={"example_kwarg": 345},
     )

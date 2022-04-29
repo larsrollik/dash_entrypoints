@@ -8,7 +8,9 @@ from dash import State
 from dash.exceptions import PreventUpdate
 
 from dash_entrypoints.assets import get_standard_component_id
-from dash_entrypoints.elements.popup_for_information import add_popup_for_information
+from dash_entrypoints.elements.popup_for_information import (
+    add_popup_for_information,
+)
 
 
 def layout():
@@ -20,7 +22,11 @@ def layout():
             "close_button": False,
             "is_open": False,
         },
-        {"name": "error", "title": "Error during insert", "close_button": True},
+        {
+            "name": "error",
+            "title": "Error during insert",
+            "close_button": True,
+        },
     ]
     popup_layout, popup_list = add_popup_for_information(popup_list=popup_list)
     button_id = get_standard_component_id(__name__, "button")
