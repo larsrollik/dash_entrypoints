@@ -4,7 +4,7 @@ on: push
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -24,14 +24,14 @@ jobs:
 
   check-tag:
     needs: [lint]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     if: contains(github.ref, 'tags') && (!contains(github.ref_name, 'dev')) && (!contains(github.ref_name, 'rc'))
     steps:
       - run: echo "Tag '${{ github.ref_name }}' is valid."
 
   release:
     needs: [check-tag]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -49,7 +49,7 @@ jobs:
 
   deploy:
     needs: [release]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
